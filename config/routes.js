@@ -40,6 +40,12 @@ export default [
       {
         component: './404',
       },
+      {
+        path: '/admin/common',
+        name: 'common',
+        icon: 'smile',
+        component: './Common',
+      },
     ],
   },
   {

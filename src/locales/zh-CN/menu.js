@@ -1,9 +1,10 @@
 export default {
-  'menu.welcome': '欢迎',
+  'menu.welcome': '展示中心',
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',
-  'menu.admin': '管理页',
-  'menu.admin.sub-page': '二级管理页',
+  'menu.admin': '功能',
+  'menu.admin.sub-page': '动物识别',
+  'menu.admin.common': '图像分类',
   'menu.login': '登录',
   'menu.register': '注册',
   'menu.register-result': '注册结果',
