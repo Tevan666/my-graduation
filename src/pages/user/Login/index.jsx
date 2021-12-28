@@ -14,8 +14,7 @@ import Footer from '@/components/Footer';
 import { login } from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 import styles from './index.less';
-import logoImg from '../../../assets/rightImg.png';
-import rightImg from '../../../assets/loginImg.png';
+import logoImg from '../../../assets/last.png';
 
 const LoginMessage = ({ content }) => (
   <Alert
@@ -79,7 +78,6 @@ const Login = () => {
   return (
     <div className={styles.container}>
       <div className={styles.loginImg}>
-        <img src={rightImg} className={styles.rightImg} alt="" />
         <img src={logoImg} alt="" />
       </div>
       <div className={styles.content}>
