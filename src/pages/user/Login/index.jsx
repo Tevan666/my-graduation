@@ -14,7 +14,8 @@ import Footer from '@/components/Footer';
 import { login } from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 import styles from './index.less';
-import logoImg from '../../../assets/loginImg.png';
+import logoImg from '../../../assets/rightImg.png';
+import rightImg from '../../../assets/loginImg.png';
 
 const LoginMessage = ({ content }) => (
   <Alert
@@ -77,10 +78,14 @@ const Login = () => {
   const { status, type: loginType } = userLoginState;
   return (
     <div className={styles.container}>
-      <div className={styles.lang} data-lang>
-        {SelectLang && <SelectLang />}
+      <div className={styles.loginImg}>
+        <img src={rightImg} className={styles.rightImg} alt="" />
+        <img src={logoImg} alt="" />
       </div>
       <div className={styles.content}>
+        <div className={styles.lang} data-lang>
+          {SelectLang && <SelectLang />}
+        </div>
         <LoginForm
           logo={<img alt="logo" src="/logo.svg" />}
           title="基于react和flask搭建的物体分类可视化平台"
@@ -279,9 +284,9 @@ const Login = () => {
               <FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码" />
             </a>
           </div>
+          <Footer />
         </LoginForm>
       </div>
-      <Footer />
     </div>
   );
 };
