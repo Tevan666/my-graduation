@@ -24,10 +24,10 @@ const Admin = () => {
     fileList: [],
   });
 
-  const handleCancel = () => setState({ previewVisible: false });
+  const handleCancel = () => setState({ previewVisible: false, fileList: fileList });
 
   const handlePreview = async (file) => {
-    debugger;
+    console.log(fileList);
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
@@ -36,10 +36,13 @@ const Admin = () => {
       previewImage: file.url || file.preview,
       previewVisible: true,
       previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
+      fileList: fileList,
     });
   };
 
-  const handleChange = ({ fileList }) => setState({ fileList });
+  const handleChange = ({ fileList }) => {
+    setState({ fileList });
+  };
   const { previewVisible, previewImage, fileList, previewTitle } = state;
   const uploadButton = (
     <div>
@@ -75,7 +78,7 @@ const Admin = () => {
           onPreview={handlePreview}
           onChange={handleChange}
         >
-          {fileList.length >= 8 ? null : uploadButton}
+          {uploadButton}
         </Upload>
         <Typography.Title
           level={2}
