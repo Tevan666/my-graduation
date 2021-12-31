@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { HeartTwoTone, SmileTwoTone } from '@ant-design/icons';
 import { Card, Typography, Alert } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
@@ -27,6 +27,7 @@ const Admin = () => {
   const handleCancel = () => setState({ previewVisible: false });
 
   const handlePreview = async (file) => {
+    debugger;
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
@@ -68,7 +69,7 @@ const Admin = () => {
           }}
         />
         <Upload
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          action="v2/5cc8019d300000980a055e76"
           listType="picture-card"
           fileList={fileList}
           onPreview={handlePreview}
