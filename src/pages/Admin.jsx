@@ -5,51 +5,11 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { useIntl } from 'umi';
 import { Upload, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-
+import { Route } from 'react-router-dom';
+import Animal from './Categories/Animal';
+import Category from './Categories/Category';
 const Admin = () => {
   const intl = useIntl();
-
-  function getBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-  }
-  const [state, setState] = useState({
-    previewVisible: false,
-    previewImage: '',
-    previewTitle: '',
-    fileList: [],
-  });
-
-  const handleCancel = () => setState({ previewVisible: false, fileList: fileList });
-
-  const handlePreview = async (file) => {
-    console.log(fileList);
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
-
-    setState({
-      previewImage: file.url || file.preview,
-      previewVisible: true,
-      previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
-      fileList: fileList,
-    });
-  };
-
-  const handleChange = ({ fileList }) => {
-    setState({ fileList });
-  };
-  const { previewVisible, previewImage, fileList, previewTitle } = state;
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </div>
-  );
   return (
     <PageHeaderWrapper
       content={intl.formatMessage({
@@ -57,41 +17,8 @@ const Admin = () => {
         defaultMessage: 'This page can only be viewed by admin',
       })}
     >
-      <Card>
-        <Alert
-          message={intl.formatMessage({
-            id: 'pages.welcome.animal',
-            defaultMessage: '识别近八千种动物',
-          })}
-          type="success"
-          showIcon
-          banner
-          style={{
-            margin: -12,
-            marginBottom: 48,
-          }}
-        />
-        <Upload
-          action="v2/5cc8019d300000980a055e76"
-          listType="picture-card"
-          fileList={fileList}
-          onPreview={handlePreview}
-          onChange={handleChange}
-        >
-          {uploadButton}
-        </Upload>
-        <Typography.Title
-          level={2}
-          style={{
-            textAlign: 'center',
-          }}
-        >
-          <SmileTwoTone /> Ant Design Pro <HeartTwoTone twoToneColor="#eb2f96" /> You
-        </Typography.Title>
-        <Modal visible={previewVisible} title={previewTitle} footer={null} onCancel={handleCancel}>
-          <img alt="example" style={{ width: '100%' }} src={previewImage} />
-        </Modal>
-      </Card>
+      <Route path="/admin/animal" component={Animal} />
+      <Route path="/admin/category" component={Category} />
     </PageHeaderWrapper>
   );
 };

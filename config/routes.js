@@ -32,19 +32,19 @@ export default [
     component: './Admin',
     routes: [
       {
-        path: '/admin/sub-page',
-        name: 'sub-page',
+        path: '/admin/animal',
+        name: 'animal',
         icon: 'smile',
-        component: './Welcome',
+        component: './Categories/Animal',
       },
       {
         component: './404',
       },
       {
-        path: '/admin/common',
-        name: 'common',
+        path: '/admin/category',
+        name: 'picture',
         icon: 'smile',
-        component: './Common',
+        component: './Categories/Category',
       },
     ],
   },
