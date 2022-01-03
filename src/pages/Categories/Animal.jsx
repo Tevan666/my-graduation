@@ -7,7 +7,9 @@ import { Upload, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import ProForm from '@ant-design/pro-form';
 import Page from './line';
+import { Collapse } from 'antd';
 
+const { Panel } = Collapse;
 const Animal = () => {
   const [lineData, setLineData] = useState('');
   const intl = useIntl();
@@ -64,7 +66,7 @@ const Animal = () => {
         {
           method: 'post',
           headers: { 'Content-type': 'application/x-www-form-urlencoded' },
-          body: `image=${image}`,
+          body: `image=${image}&baike_num=1`,
         },
       )
         .then((response) => response.json())
@@ -101,6 +103,16 @@ const Animal = () => {
           {fileList.length >= 1 ? null : uploadButton}
         </Upload>
       </ProForm>
+      {lineData ? (
+        <Collapse ghost>
+          <Panel header="详细信息">
+            <a href={lineData[0].baike_info.baike_url} target="_blank" rel="noreferrer">
+              点我去百科
+            </a>
+            <p>{lineData[0].baike_info.description}</p>
+          </Panel>
+        </Collapse>
+      ) : null}
       {lineData ? <Page lineData={lineData} /> : null}
       <Typography.Title
         level={2}
