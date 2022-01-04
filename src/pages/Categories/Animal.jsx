@@ -8,11 +8,13 @@ import { PlusOutlined } from '@ant-design/icons';
 import ProForm from '@ant-design/pro-form';
 import Page from './line';
 import { Collapse } from 'antd';
-
+import { useRequest } from 'umi';
+import { getResults } from './category.service';
 const { Panel } = Collapse;
 const Animal = () => {
   const [lineData, setLineData] = useState('');
   const intl = useIntl();
+  const [image, setImage] = useState('');
   function getBase64(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -55,25 +57,29 @@ const Animal = () => {
     </div>
   );
 
-  const getResult = () => {
+  const getResult = async () => {
     if (fileList.length && fileList[0].thumbUrl) {
       const imgURL = fileList[0].thumbUrl;
       const reg = /.+(base64,)/;
       //需要对url进行解码
-      const image = encodeURIComponent(imgURL.replace(reg, ''));
-      fetch(
-        'https://aip.baidubce.com/rest/2.0/image-classify/v1/animal?access_token=24.ba42db818351143b0b0808785d427fa8.2592000.1643275108.282335-25425850',
-        {
-          method: 'post',
-          headers: { 'Content-type': 'application/x-www-form-urlencoded' },
-          body: `image=${image}&baike_num=1`,
-        },
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setLineData(data.result);
-        });
+      setImage(encodeURIComponent(imgURL.replace(reg, '')));
+      if (image) {
+        const res = await getResults(image, 1);
+        setLineData(res.result);
+      }
+      // fetch(
+      //   'https://aip.baidubce.com/rest/2.0/image-classify/v1/animal?access_token=24.ba42db818351143b0b0808785d427fa8.2592000.1643275108.282335-25425850',
+      //   {
+      //     method: 'post',
+      //     headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+      //     body: `image=${image}&baike_num=1`,
+      //   },
+      // )
+      //   .then((response) => response.json())
+      //   .then((data) => {
+      //     console.log(data);
+      //     setLineData(data.result);
+      //   });
     }
   };
 

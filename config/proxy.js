@@ -22,6 +22,11 @@ export default {
       changeOrigin: true,
       secure: true,
     },
+    '/rest': {
+      target: 'https://aip.baidubce.com',
+      changeOrigin: true,
+      secure: true,
+    },
     '/api/to/': {
       target: 'http://pokeapi.co',
       changeOrigin: true,
