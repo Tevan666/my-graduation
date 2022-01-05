@@ -7,9 +7,9 @@ const Page = (lineData) => {
     item.score = (item.score * 100) / 100;
     resList.push(item);
   });
-
+  const data = resList;
   const config = {
-    resList,
+    data,
     xField: 'name',
     yField: 'score',
     yAxis: {
