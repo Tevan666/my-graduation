@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { HeartTwoTone, SmileTwoTone } from '@ant-design/icons';
-import { Card, Typography, Alert } from 'antd';
+import { Card, Typography, Alert, Row, Col } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { useIntl } from 'umi';
 import { Upload, Modal } from 'antd';
@@ -10,6 +10,8 @@ import Page from './line';
 import { Collapse } from 'antd';
 import { useRequest } from 'umi';
 import { getResults } from './category.service';
+import GaugeChart from './GaugeChart';
+
 const { Panel } = Collapse;
 const Animal = () => {
   const [lineData, setLineData] = useState('');
@@ -84,7 +86,7 @@ const Animal = () => {
   };
 
   return (
-    <Card>
+    <Card style={{ marginBottom: 20 }}>
       <Alert
         message={intl.formatMessage({
           id: 'pages.welcome.animal',
@@ -98,27 +100,32 @@ const Animal = () => {
           marginBottom: 48,
         }}
       />
-      <ProForm onFinish={getResult}>
-        <Upload
-          action="v2/5cc8019d300000980a055e76"
-          listType="picture-card"
-          fileList={fileList}
-          onPreview={handlePreview}
-          onChange={handleChange}
-        >
-          {fileList.length >= 1 ? null : uploadButton}
-        </Upload>
-      </ProForm>
-      {lineData ? (
-        <Collapse ghost>
-          <Panel header="详细信息">
-            <a href={lineData[0].baike_info.baike_url} target="_blank" rel="noreferrer">
-              点我去百科
-            </a>
-            <p>{lineData[0].baike_info.description}</p>
-          </Panel>
-        </Collapse>
-      ) : null}
+      <Row gutter={[16, 16]} justify="space-around">
+        <Col span={10}>
+          <ProForm onFinish={getResult}>
+            <Upload
+              action="v2/5cc8019d300000980a055e76"
+              listType="picture-card"
+              fileList={fileList}
+              onPreview={handlePreview}
+              onChange={handleChange}
+            >
+              {fileList.length >= 1 ? null : uploadButton}
+            </Upload>
+          </ProForm>
+          {lineData ? (
+            <Collapse ghost defaultActiveKey={['1']}>
+              <Panel header="详细信息" key="1">
+                <a href={lineData[0].baike_info.baike_url} target="_blank" rel="noreferrer">
+                  点我去百科
+                </a>
+                <p>{lineData[0].baike_info.description}</p>
+              </Panel>
+            </Collapse>
+          ) : null}
+        </Col>
+        <Col span={14}>{lineData ? <GaugeChart lineData={lineData} /> : null}</Col>
+      </Row>
       {lineData ? <Page lineData={lineData} /> : null}
       <Typography.Title
         level={2}

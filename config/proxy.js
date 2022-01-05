@@ -17,11 +17,13 @@ export default {
       changeOrigin: true,
       secure: false,
     },
+    //图片上传接口
     '/v2': {
       target: 'https://www.mocky.io',
       changeOrigin: true,
       secure: true,
     },
+    //图片分类接口
     '/rest': {
       target: 'https://aip.baidubce.com',
       changeOrigin: true,
