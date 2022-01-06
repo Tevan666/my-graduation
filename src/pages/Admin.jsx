@@ -20,8 +20,9 @@ const Admin = () => {
       })}
     >
       <Route path="/admin/animal" component={Animal} />
-      <Route path="/admin/category" component={Category} />
       <Route path="/admin/plant" component={Plant} />
+
+      <Route path="/admin/category" component={Category} />
     </PageHeaderWrapper>
   );
 };

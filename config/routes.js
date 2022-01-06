@@ -41,16 +41,16 @@ export default [
         component: './404',
       },
       {
-        path: '/admin/category',
-        name: 'picture',
-        icon: 'smile',
-        component: './Categories/Category',
-      },
-      {
         path: '/admin/plant',
         name: 'plant',
         icon: 'smile',
         component: './Categories/Plant',
+      },
+      {
+        path: '/admin/category',
+        name: 'picture',
+        icon: 'smile',
+        component: './Categories/Category',
       },
     ],
   },
