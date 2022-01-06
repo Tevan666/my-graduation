@@ -8,6 +8,8 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Route } from 'react-router-dom';
 import Animal from './Categories/Animal';
 import Category from './Categories/Category';
+import Plant from './Categories/Plant';
+
 const Admin = () => {
   const intl = useIntl();
   return (
@@ -19,6 +21,7 @@ const Admin = () => {
     >
       <Route path="/admin/animal" component={Animal} />
       <Route path="/admin/category" component={Category} />
+      <Route path="/admin/plant" component={Plant} />
     </PageHeaderWrapper>
   );
 };

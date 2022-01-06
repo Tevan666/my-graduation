@@ -46,6 +46,12 @@ export default [
         icon: 'smile',
         component: './Categories/Category',
       },
+      {
+        path: '/admin/plant',
+        name: 'plant',
+        icon: 'smile',
+        component: './Categories/Plant',
+      },
     ],
   },
   {

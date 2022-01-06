@@ -28,6 +28,7 @@ export default {
   'pages.welcome.alertMessage':
     '当前可识别：鸟、蝴蝶、书、牛、鸡、大象、马、手机、羊、鞋、蜘蛛、松鼠、手表',
   'pages.welcome.animal': '识别近八千种动物',
+  'pages.welcome.plant': '识别近八千种植物',
   'pages.admin.subPage.title': ' 这个页面只有 admin 权限才能查看',
   'pages.admin.subPage.alertMessage': 'umi ui 现已发布，欢迎使用 npm run ui 启动体验。',
   'pages.searchTable.createForm.newRule': '新建规则',

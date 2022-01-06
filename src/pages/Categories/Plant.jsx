@@ -13,7 +13,7 @@ import { getResults } from './category.service';
 import GaugeChart from './GaugeChart';
 
 const { Panel } = Collapse;
-const Animal = () => {
+const Plant = () => {
   const [lineData, setLineData] = useState('');
   const intl = useIntl();
   const [image, setImage] = useState('');
@@ -66,7 +66,7 @@ const Animal = () => {
       //需要对url进行解码
       setImage(encodeURIComponent(imgURL.replace(reg, '')));
       if (image) {
-        const res = await getResults(image, 1, 'animal');
+        const res = await getResults(image, 1, 'plant');
         setLineData(res.result);
       }
     }
@@ -129,4 +129,4 @@ const Animal = () => {
   );
 };
 
-export default Animal;
+export default Plant;

@@ -4,6 +4,7 @@ export default {
   'menu.home': '首页',
   'menu.admin': '功能',
   'menu.admin.animal': '动物识别',
+  'menu.admin.plant': '植物识别',
   'menu.admin.picture': '图像分类',
   'menu.login': '登录',
   'menu.register': '注册',
