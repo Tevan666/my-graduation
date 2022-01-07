@@ -64,10 +64,12 @@ export const layout = ({ initialState, setInitialState }) => {
     },
     links: isDev
       ? [
+          // eslint-disable-next-line react/jsx-key
           <Link to="/umi/plugin/openapi" target="_blank">
             <LinkOutlined />
             <span>OpenAPI 文档</span>
           </Link>,
+          // eslint-disable-next-line react/jsx-key
           <Link to="/~docs">
             <BookOutlined />
             <span>业务组件文档</span>

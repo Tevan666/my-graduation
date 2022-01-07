@@ -76,8 +76,8 @@ const Plant = () => {
     <Card style={{ marginBottom: 20 }}>
       <Alert
         message={intl.formatMessage({
-          id: 'pages.welcome.animal',
-          defaultMessage: '识别近八千种动物',
+          id: 'pages.welcome.plant',
+          defaultMessage: '识别近八千种植物',
         })}
         type="success"
         showIcon
