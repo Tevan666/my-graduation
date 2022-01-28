@@ -11,12 +11,16 @@ import { Collapse } from 'antd';
 import { useRequest } from 'umi';
 import { getResults } from './category.service';
 import GaugeChart from './GaugeChart';
+import { Steps } from 'antd';
+const { Step } = Steps;
 
 const { Panel } = Collapse;
 const Animal = () => {
   const [lineData, setLineData] = useState('');
   const intl = useIntl();
   const [image, setImage] = useState('');
+  const [step, setStep] = useState(0);
+  const [status, setStatus] = useState('wait');
   function getBase64(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -60,6 +64,7 @@ const Animal = () => {
   );
 
   const getResult = async () => {
+    setStatus('process');
     if (fileList.length && fileList[0].thumbUrl) {
       const imgURL = fileList[0].thumbUrl;
       const reg = /.+(base64,)/;
@@ -68,6 +73,10 @@ const Animal = () => {
       if (image) {
         const res = await getResults(image, 1, 'animal');
         setLineData(res.result);
+        setStep(1);
+        setStatus('finish');
+      } else {
+        setStatus('error');
       }
     }
   };
@@ -87,6 +96,11 @@ const Animal = () => {
           marginBottom: 48,
         }}
       />
+      <Steps current={step} percent={100} status={status}>
+        <Step title="上传图片" description="图片类型支持PNG、JPG、JPEG、BMP，大小不超过4M。" />
+        <Step title="进行分类" subTitle="即刻体验" />
+        <Step title="保存记录" description="保存分类记录" />
+      </Steps>
       <Row gutter={[16, 16]} justify="space-around">
         <Col span={10}>
           <ProForm onFinish={getResult}>
