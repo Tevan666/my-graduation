@@ -120,7 +120,7 @@ const Plant = () => {
           textAlign: 'center',
         }}
       >
-        <SmileTwoTone /> Ant Design Pro <HeartTwoTone twoToneColor="#eb2f96" /> You
+        <SmileTwoTone /> I <HeartTwoTone twoToneColor="#eb2f96" /> You
       </Typography.Title>
       <Modal visible={previewVisible} title={previewTitle} footer={null} onCancel={handleCancel}>
         <img alt="example" style={{ width: '100%' }} src={previewImage} />
