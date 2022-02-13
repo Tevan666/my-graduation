@@ -17,6 +17,8 @@ import {
   Modal,
   Collapse,
   Tag,
+  Button,
+  Table,
 } from 'antd';
 import { useIntl } from 'umi';
 
@@ -28,7 +30,8 @@ import { getResults } from './category.service';
 import GaugeChart from './GaugeChart';
 
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-
+import ProTable from '@ant-design/pro-table';
+import CarouselComponent from '@/components/Carousel';
 const { Meta } = Card;
 
 const { Step } = Steps;
@@ -103,6 +106,68 @@ const Animal = () => {
     }
   };
 
+  const columns = [
+    {
+      title: '分类结果',
+      width: 120,
+      dataIndex: 'name',
+      fixed: 'left',
+    },
+    {
+      title: '百科地址',
+      width: 120,
+      dataIndex: 'url',
+      fixed: 'left',
+    },
+    {
+      title: '图片预览',
+      width: 120,
+      dataIndex: 'img',
+      fixed: 'left',
+    },
+    {
+      title: '状态',
+      width: 120,
+      dataIndex: 'status',
+      fixed: 'left',
+    },
+    {
+      title: '操作',
+      width: 120,
+      fixed: 'left',
+      render: () => <a>入库</a>,
+    },
+  ];
+  let historyList = [
+    {
+      name: '龙',
+      key: 1,
+      url: 'www.baidu.com',
+      img: 'www.baidu.com',
+      status: '已入库',
+    },
+    {
+      name: '鸟',
+      key: 2,
+      url: 'www.baidu.com',
+      img: 'www.baidu.com',
+      status: '已入库',
+    },
+    {
+      name: '蛇',
+      key: 3,
+      url: 'www.baidu.com',
+      img: 'www.baidu.com',
+      status: '未入库',
+    },
+    {
+      name: '鱼',
+      key: 4,
+      url: 'www.baidu.com',
+      img: 'www.baidu.com',
+      status: '已入库',
+    },
+  ];
   return (
     <>
       <Card title="功能介绍" bordered="false" style={{ marginBottom: 24 }}>
@@ -152,6 +217,7 @@ const Animal = () => {
             </Tag>
           </Col>
         </Row>
+        <CarouselComponent />
       </Card>
       <Card style={{ marginBottom: 20 }}>
         <Steps current={step} percent={100} status={status} style={{ marginBottom: 24 }}>
@@ -197,6 +263,21 @@ const Animal = () => {
         <Modal visible={previewVisible} title={previewTitle} footer={null} onCancel={handleCancel}>
           <img alt="example" style={{ width: '100%' }} src={previewImage} />
         </Modal>
+      </Card>
+      <Card title="分类历史">
+        <ProTable
+          columns={columns}
+          options={false}
+          rowSelection={{
+            // 自定义选择项参考: https://ant.design/components/table-cn/#components-table-demo-row-selection-custom
+            // 注释该行则默认不显示下拉选项
+            selections: [Table.SELECTION_ALL, Table.SELECTION_INVERT],
+            defaultSelectedRowKeys: [1],
+          }}
+          rowKey="key"
+          toolBarRender={() => [<Button key="show">记录入库</Button>]}
+          dataSource={historyList}
+        />
       </Card>
     </>
   );
