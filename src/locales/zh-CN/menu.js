@@ -6,6 +6,8 @@ export default {
   'menu.admin.animal': '动物识别',
   'menu.admin.plant': '植物识别',
   'menu.admin.picture': '图像分类',
+  'menu.center': '个人中心',
+  'menu.settings': '个人设置',
   'menu.login': '登录',
   'menu.register': '注册',
   'menu.register-result': '注册结果',

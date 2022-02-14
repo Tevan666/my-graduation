@@ -11,6 +11,7 @@ export default defineConfig({
   dva: {
     hmr: true,
   },
+  fastRefresh: {},
   layout: {
     // https://umijs.org/zh-CN/plugins/plugin-layout
     locale: true,

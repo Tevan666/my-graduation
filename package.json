@@ -49,10 +49,11 @@
   "dependencies": {
     "@ant-design/charts": "^1.3.3",
     "@ant-design/icons": "^4.5.0",
+    "@ant-design/pro-card": "^1.18.31",
     "@ant-design/pro-descriptions": "^1.9.0",
     "@ant-design/pro-form": "^1.43.0",
     "@ant-design/pro-layout": "^6.32.0-beta.4",
-    "@ant-design/pro-table": "^2.56.0",
+    "@ant-design/pro-table": "^2.63.5",
     "@antv/g2plot": "^2.4.5",
     "@umijs/route-utils": "^2.0.4",
     "antd": "^4.17.0",

@@ -19,6 +19,23 @@ export default [
     ],
   },
   {
+    path: '/account',
+    routes: [
+      {
+        path: '/account/center',
+        name: 'center',
+        icon: 'smile',
+        component: './Account/Center/index',
+      },
+      {
+        path: '/account/settings',
+        name: 'settings',
+        icon: 'smile',
+        component: './Account/Settings/index',
+      },
+    ],
+  },
+  {
     path: '/welcome',
     name: 'welcome',
     icon: 'smile',
