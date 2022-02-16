@@ -10,7 +10,7 @@ const Settings = () => {
             个人信息
           </ProCard>
         </ProCard>
-        <ProCard>
+        <ProCard className="mt-20">
           <ProCard>认证信息</ProCard>
           <ProCard>绑定信息</ProCard>
         </ProCard>
