@@ -5,14 +5,23 @@ const Settings = () => {
   return (
     <>
       <PageContainer title="个人设置">
-        <ProCard direction="column" ghost>
+        <ProCard ghost hoverable>
           <ProCard title="基本信息" headerBordered>
             个人信息
           </ProCard>
         </ProCard>
-        <ProCard className="mt-20">
-          <ProCard>认证信息</ProCard>
-          <ProCard>绑定信息</ProCard>
+        <ProCard style={{ marginTop: 24 }} ghost gutter={(0, 8)}>
+          <ProCard ghost gutter={(0, 8)} direction="column">
+            <ProCard title="账号注销" headerBordered>
+              1
+            </ProCard>
+            <ProCard title="其他联系方式" headerBordered style={{ marginTop: 24 }}>
+              2
+            </ProCard>
+          </ProCard>
+          <ProCard title="安全信息" headerBordered h>
+            绑定信息
+          </ProCard>
         </ProCard>
       </PageContainer>
     </>
