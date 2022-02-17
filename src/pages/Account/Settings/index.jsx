@@ -1,5 +1,6 @@
 import ProCard from '@ant-design/pro-card';
 import { PageContainer } from '@ant-design/pro-layout';
+import CommonMessage from './CommonMessage';
 
 const Settings = () => {
   return (
@@ -7,7 +8,7 @@ const Settings = () => {
       <PageContainer title="个人设置">
         <ProCard ghost hoverable>
           <ProCard title="基本信息" headerBordered>
-            个人信息
+            <CommonMessage />
           </ProCard>
         </ProCard>
         <ProCard style={{ marginTop: 24 }} ghost gutter={(0, 8)}>

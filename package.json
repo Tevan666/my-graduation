@@ -32,7 +32,8 @@
     "test": "umi test",
     "test:component": "umi test ./src/components",
     "test:e2e": "node ./tests/run-tests.js",
-    "tsc": "tsc --noEmit"
+    "tsc": "tsc --noEmit",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "**/*.less": "stylelint --syntax less",
@@ -53,6 +54,7 @@
     "@ant-design/pro-descriptions": "^1.9.0",
     "@ant-design/pro-form": "^1.43.0",
     "@ant-design/pro-layout": "^6.32.0-beta.4",
+    "@ant-design/pro-list": "^1.21.28",
     "@ant-design/pro-table": "^2.63.5",
     "@antv/g2plot": "^2.4.5",
     "@umijs/route-utils": "^2.0.4",
@@ -104,6 +106,7 @@
     "eslint": "^7.1.0",
     "express": "^4.17.1",
     "gh-pages": "^3.0.0",
+    "husky": "^7.0.4",
     "jsdom-global": "^3.0.2",
     "lint-staged": "^10.0.0",
     "mockjs": "^1.0.1-beta3",
