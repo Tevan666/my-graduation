@@ -3,6 +3,7 @@ export default {
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',
   'menu.admin': '功能',
+  'menu.mart': '商店',
   'menu.admin.animal': '动物识别',
   'menu.admin.plant': '植物识别',
   'menu.admin.picture': '图像分类',

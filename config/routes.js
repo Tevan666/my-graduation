@@ -72,6 +72,12 @@ export default [
     ],
   },
   {
+    path: '/mart',
+    name: 'mart',
+    icon: 'shopping',
+    component: './Mart/index',
+  },
+  {
     name: 'list.table-list',
     icon: 'table',
     path: '/list',
