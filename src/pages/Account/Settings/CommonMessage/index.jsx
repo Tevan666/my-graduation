@@ -35,7 +35,7 @@ const handleEdit = (values) => {
   message.success('提交成功');
 };
 const CommonMessage = () => {
-  const { initialState, setInitialState } = useModel('@@initialState');
+  const { initialState } = useModel('@@initialState');
   const { currentUser } = initialState;
   const [editModal, setEditModal] = useState(false);
   return (
