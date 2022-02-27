@@ -1,0 +1,41 @@
+.mountain {
+  position: relative;
+  width: 100%;
+  height: 336px;
+  background: url(../../assets/bg1.png);
+  animation: mountain 80s steps(3000) infinite;
+}
+
+.bear {
+  position: absolute;
+  top: 200px;
+  width: 200px;
+  height: 100px;
+  background: url(../../assets/bear.png);
+  animation: bear 0.5s steps(8) infinite, bearmove 5s forwards;
+}
+
+@keyframes mountain {
+  0% {
+  }
+  100% {
+    background-position: -3840px 0;
+  }
+}
+@keyframes bear {
+  0% {
+  }
+
+  100% {
+    background-position: -1600px 0;
+  }
+}
+@keyframes bearmove {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: 50%;
+    transform: translate(-50%);
+  }
+}
