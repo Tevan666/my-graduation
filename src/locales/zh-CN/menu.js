@@ -4,6 +4,7 @@ export default {
   'menu.home': '首页',
   'menu.admin': '功能',
   'menu.mart': '商店',
+  'menu.function': '特色功能',
   'menu.admin.animal': '动物识别',
   'menu.admin.plant': '植物识别',
   'menu.admin.picture': '图像分类',

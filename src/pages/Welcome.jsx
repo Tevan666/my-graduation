@@ -71,7 +71,6 @@ const Welcome = () => {
           <img className={styles.imgStyle} src={require('@/assets/watch.png')} alt="" />
         </div>
       </Carousel>
-      ,
     </PageContainer>
   );
 };

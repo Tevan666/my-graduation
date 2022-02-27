@@ -78,6 +78,12 @@ export default [
     component: './Mart/index',
   },
   {
+    path: '/functions',
+    name: 'function',
+    icon: 'alert',
+    component: './Function/index',
+  },
+  {
     name: 'list.table-list',
     icon: 'table',
     path: '/list',
