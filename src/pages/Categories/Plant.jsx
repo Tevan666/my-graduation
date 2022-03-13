@@ -6,11 +6,11 @@ import { useIntl } from 'umi';
 import { Upload, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import ProForm from '@ant-design/pro-form';
-import Page from './line';
+import Page from '../../components/Charts/line';
 import { Collapse } from 'antd';
 import { useRequest } from 'umi';
 import { getResults } from './category.service';
-import GaugeChart from './GaugeChart';
+import GaugeChart from '../../components/Charts/GaugeChart';
 
 const { Panel } = Collapse;
 const Plant = () => {
