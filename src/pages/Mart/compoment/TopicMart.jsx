@@ -23,10 +23,8 @@ const TopicMart = (params) => {
 
   const handleConfirm = () => {
     setAnimalInfo({
-      key: 'animdal',
-      name: '动物',
+      ...animalInfo,
       amount: 1,
-      description: '动物识别',
     });
     message.success('不给');
     console.log(animalInfo, 'info222');
