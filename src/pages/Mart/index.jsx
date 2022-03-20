@@ -1,17 +1,26 @@
 import ProCard from '@ant-design/pro-card';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Button, Select, Space } from 'antd';
+import { Button, Select, Space, Affix, Badge } from 'antd';
 import { useState } from 'react';
+import { ShoppingCartOutlined } from '@ant-design/icons';
 import TopicMart from './compoment/TopicMart';
+import CartModal from './compoment/CartModal';
 const { Option } = Select;
 
 const Mart = () => {
   const [tabPosition, setTabPosition] = useState('left');
   const [tab, setTab] = useState('1');
+  const [CartModalVisible, setCartModalVisible] = useState(false);
+  const [goodsCount, setGoodsCount] = useState(1);
 
   return (
     <>
       <PageContainer>
+        <Affix className="cursor-pointer" offsetTop={300} onClick={() => setCartModalVisible(true)}>
+          <Badge count={goodsCount} className="float-right">
+            <ShoppingCartOutlined className="text-3xl text-blue-400" />
+          </Badge>
+        </Affix>
         <Space style={{ marginBottom: 20 }}>
           来试试更换导航栏的位置吧
           <Select
@@ -42,6 +51,7 @@ const Mart = () => {
           </ProCard.TabPane>
         </ProCard>
       </PageContainer>
+      <CartModal visible={CartModalVisible} setVisible={setCartModalVisible} />
     </>
   );
 };
