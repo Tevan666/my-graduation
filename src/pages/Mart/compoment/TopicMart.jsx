@@ -5,10 +5,8 @@ import ProCard, { StatisticCard } from '@ant-design/pro-card';
 import { Button, Statistic, Popconfirm, message } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
-
-const handleConfirm = () => {
-  message.success('不给');
-};
+import { animalState } from '../index';
+import { useRecoilState } from 'recoil';
 
 const handleCancel = () => {
   message.error('呵呵');
@@ -16,11 +14,23 @@ const handleCancel = () => {
 
 const TopicMart = (params) => {
   const [responsive, setResponsive] = useState(false);
+  const [animalInfo, setAnimalInfo] = useRecoilState(animalState);
 
   const [time, setTime] = useState(moment().format('YYYY-MM-DD, h:mm:ss a'));
   setInterval(() => {
     setTime(moment().format('YYYY-MM-DD, h:mm:ss a'));
   }, 1000);
+
+  const handleConfirm = () => {
+    setAnimalInfo({
+      key: 'animdal',
+      name: '动物',
+      amount: 1,
+      description: '动物识别',
+    });
+    message.success('不给');
+    console.log(animalInfo, 'info222');
+  };
   return (
     <>
       <RcResizeObserver

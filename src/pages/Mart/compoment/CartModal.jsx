@@ -2,35 +2,31 @@ import ProForm, { DrawerForm, ProFormSelect, ProFormList } from '@ant-design/pro
 import { message, Table } from 'antd';
 import Form from 'antd/lib/form/Form';
 import { useState } from 'react';
-
+import { useRecoilState } from 'recoil';
+import { plantState, animalState } from '../index';
 const columns = [
   {
     title: '商品名',
     dataIndex: 'name',
   },
   {
-    title: '价格',
-    dataIndex: 'age',
+    title: '数量',
+    dataIndex: 'amount',
   },
   {
     title: '描述',
-    dataIndex: 'address',
+    dataIndex: 'description',
   },
 ];
-
-const data = [];
-for (let i = 0; i < 4; i++) {
-  data.push({
-    key: i,
-    name: `动物识别`,
-    age: '$10',
-    address: `London, Park Lane no. ${i}`,
-  });
-}
 
 const CartModal = ({ visible, setVisible }) => {
   const [modalForm] = ProForm.useForm();
   const [currentRow, setCurrentRow] = useState([]);
+
+  const [animalInfo, setAnimalInfo] = useRecoilState(animalState);
+  const [plantInfo, setPlantInfo] = useRecoilState(plantState);
+
+  const data = [plantInfo, animalInfo];
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
@@ -40,6 +36,9 @@ const CartModal = ({ visible, setVisible }) => {
       const values = modalForm.getFieldValue('goods');
       console.log(values, 'values');
     },
+    getCheckboxProps: (record) => ({
+      disabled: record.amount === 0,
+    }),
   };
   return (
     <>
@@ -55,7 +54,6 @@ const CartModal = ({ visible, setVisible }) => {
           modalForm.resetFields();
           return true;
         }}
-        on
       >
         <ProForm.Item name="goods" rules={[{ required: true, message: '请选择至少一件商品!' }]}>
           <Table
