@@ -3,7 +3,7 @@ import { PageLoading } from '@ant-design/pro-layout';
 import { history, Link } from 'umi';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
-import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
+import { currentUser as queryCurrentUser, currentUserInfo } from './services/ant-design-pro/api';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import logo from './assets/logo.png';
 
@@ -32,6 +32,9 @@ export async function getInitialState() {
 
   if (history.location.pathname !== loginPath) {
     const currentUser = await fetchUserInfo();
+    debugger;
+    const user_info = await currentUserInfo('94597');
+    console.log(user_info, 'info');
     return {
       fetchUserInfo,
       currentUser,

@@ -10,6 +10,13 @@ export async function currentUser(options) {
     ...(options || {}),
   });
 }
+
+export async function currentUserInfo(userId) {
+  return request('/api/local/user_info', {
+    method: 'GET',
+    data: userId,
+  });
+}
 /** 退出登录接口 POST /api/login/outLogin */
 
 export async function outLogin(options) {
