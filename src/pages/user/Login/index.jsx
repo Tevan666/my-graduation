@@ -213,7 +213,7 @@ const Login = () => {
                   },
                 ]}
               />
-              <img src={codeSrc} width={200} />
+              <Image src={codeSrc} preview={false} width={200} onClick={getSrc} />
             </>
           )}
 
