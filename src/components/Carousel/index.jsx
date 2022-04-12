@@ -1,9 +1,15 @@
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 
-const CarouselComponent = () => {
+const CarouselComponent = (props) => {
   return (
-    <Carousel autoPlay infiniteLoop={true}>
+    <Carousel
+      autoPlay
+      infiniteLoop={true}
+      axis={props.type === 'animal' ? 'horizontal' : 'vertical'}
+      interval={props.type === 'animal' ? 3000 : 2000}
+      transitionTime={1000}
+    >
       <div key={1}>
         <img src="https://api.zylearning.top/api/wallpaper?lx=dw" />
         <p className="legend">动物识别</p>

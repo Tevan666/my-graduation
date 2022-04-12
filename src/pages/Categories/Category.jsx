@@ -1,5 +1,11 @@
+import CategoryCompoment from './compoments/CategoryCompoment';
+
 const Category = () => {
-  return <div>New Page</div>;
+  return (
+    <>
+      <CategoryCompoment type="matter" />
+    </>
+  );
 };
 
 export default Category;
