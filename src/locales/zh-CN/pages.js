@@ -1,5 +1,5 @@
 export default {
-  'pages.layouts.userLayout.title': '目前支持：',
+  'pages.layouts.userLayout.title': '目前支持：动物分类、植物分类、物体分类等等特色功能',
   'pages.login.accountLogin.tab': '账户密码登录',
   'pages.login.accountLogin.errorMessage': '错误的用户名和密码(admin/ant.design)',
   'pages.login.failure': '登录失败，请重试！',

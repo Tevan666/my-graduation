@@ -53,7 +53,7 @@ const CommonMessage = () => {
           {
             title: '头像',
             key: 'text',
-            dataIndex: `${currentUser.avatar}`,
+            dataIndex: `${currentUser?.avatar}`,
             ellipsis: true,
             copyable: true,
             valueType: 'avatar',
@@ -61,7 +61,7 @@ const CommonMessage = () => {
               return (
                 <>
                   <div className="flex items-center">
-                    <img className="max-h-20" src={`${currentUser.avatar}`} alt="" />
+                    <img className="max-h-20" src={`${currentUser?.avatar}`} alt="" />
                     <div className="flex flex-col ml-5">
                       <p>欢迎回来 {currentUser.name}</p>
                       <Upload {...props}>

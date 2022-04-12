@@ -24,9 +24,9 @@ const PersonalInfo = () => {
             }}
             columns={[
               {
-                title: `${currentUser.name}`,
+                title: `${currentUser?.name}`,
                 key: 'text',
-                dataIndex: `${currentUser.avatar}`,
+                dataIndex: `${currentUser?.avatar}`,
                 ellipsis: true,
                 copyable: true,
                 valueType: 'avatar',
@@ -34,7 +34,7 @@ const PersonalInfo = () => {
                   return (
                     <>
                       <div className="flex items-center">
-                        <img className="max-h-10" src={`${currentUser.avatar}`} alt="" />
+                        <img className="max-h-10" src={`${currentUser?.avatar}`} alt="" />
                       </div>
                     </>
                   );
