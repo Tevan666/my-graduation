@@ -16,6 +16,10 @@ import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 import styles from './index.less';
 import logoImg from '../../../assets/last.png';
 
+import { Image } from 'antd';
+
+import { getImgSrc } from './login.service';
+import { useEffect } from 'react';
 const LoginMessage = ({ content }) => (
   <Alert
     style={{
@@ -29,16 +33,25 @@ const LoginMessage = ({ content }) => (
 
 const Login = () => {
   const [userLoginState, setUserLoginState] = useState({});
+  const [codeSrc, setCodeSrc] = useState('');
   const [type, setType] = useState('account');
   const { initialState, setInitialState } = useModel('@@initialState');
   const intl = useIntl();
 
+  useEffect(() => {
+    getSrc();
+  }, []);
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
-
     if (userInfo) {
       await setInitialState((s) => ({ ...s, currentUser: userInfo }));
     }
+  };
+
+  const getSrc = async () => {
+    await getImgSrc().then((res) => {
+      setCodeSrc(res);
+    });
   };
 
   const handleSubmit = async (values) => {
@@ -178,6 +191,29 @@ const Login = () => {
                   },
                 ]}
               />
+              <ProFormText
+                name="code"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <LockOutlined className={styles.prefixIcon} />,
+                }}
+                placeholder={intl.formatMessage({
+                  id: 'pages.login.code.placeholder',
+                  defaultMessage: '请输入验证码',
+                })}
+                rules={[
+                  {
+                    required: true,
+                    message: (
+                      <FormattedMessage
+                        id="pages.login.code.required"
+                        defaultMessage="请输入验证码！"
+                      />
+                    ),
+                  },
+                ]}
+              />
+              <img src={codeSrc} width={200} />
             </>
           )}
 

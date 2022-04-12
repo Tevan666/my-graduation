@@ -32,9 +32,8 @@ export async function getInitialState() {
 
   if (history.location.pathname !== loginPath) {
     const currentUser = await fetchUserInfo();
-    debugger;
-    const user_info = await currentUserInfo('94597');
-    console.log(user_info, 'info');
+    // const user_info = await currentUserInfo('94597');
+    // console.log(user_info, 'info');
     return {
       fetchUserInfo,
       currentUser,
