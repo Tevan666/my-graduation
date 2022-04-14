@@ -1,10 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { HeartTwoTone, SmileTwoTone } from '@ant-design/icons';
-import { Card, Typography, Alert } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { useIntl } from 'umi';
-import { Upload, Modal } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
 import { Route } from 'react-router-dom';
 import Animal from './Categories/Animal';
 import Category from './Categories/Category';

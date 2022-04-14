@@ -6,7 +6,8 @@ import Footer from '@/components/Footer';
 import { currentUser as queryCurrentUser, currentUserInfo } from './services/ant-design-pro/api';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import logo from './assets/logo.png';
-
+import { useRecoilValue } from 'recoil';
+import { userInfo } from './pages/user/Login';
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
 /** 获取用户信息比较慢的时候会展示一个 loading */
@@ -24,7 +25,7 @@ export async function getInitialState() {
       const msg = await queryCurrentUser();
       return msg.data;
     } catch (error) {
-      history.push(loginPath);
+      // history.push(loginPath);
     }
 
     return undefined;
