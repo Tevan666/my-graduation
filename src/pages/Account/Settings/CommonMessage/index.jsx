@@ -43,11 +43,11 @@ const CommonMessage = () => {
       <ProDescriptions
         dataSource={{
           id: '这是一段文本columns',
-          date: '20200809',
-          money: '1212100',
-          state: 'closed',
-          square: '广东佛山',
-          description: '我就是我， 不一样的烟火',
+          date: currentUser?.create_time,
+          money: currentUser?.balances,
+          state: currentUser?.status,
+          square: currentUser?.square,
+          description: currentUser?.description,
         }}
         columns={[
           {
@@ -80,11 +80,11 @@ const CommonMessage = () => {
             valueType: 'select',
             valueEnum: {
               all: { text: '全部', status: 'Default' },
-              open: {
+              invalid: {
                 text: '异常',
                 status: 'Error',
               },
-              closed: {
+              valid: {
                 text: '正常',
                 status: 'Success',
               },
