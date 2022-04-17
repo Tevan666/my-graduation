@@ -9,7 +9,6 @@ const Footer = () => {
     id: 'app.copyright.produced',
     defaultMessage: 'Tevan出品，必是精品',
   });
-  console.log(history.location, 'his');
   const currentYear = new Date().getFullYear();
   return (
     <>

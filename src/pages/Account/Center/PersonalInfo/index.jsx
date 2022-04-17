@@ -1,5 +1,5 @@
 import { useModel } from 'umi';
-
+import { MoneyCollectOutlined } from '@ant-design/icons';
 import ProCard from '@ant-design/pro-card';
 import ProDescriptions from '@ant-design/pro-descriptions';
 
@@ -7,7 +7,7 @@ const PersonalInfo = () => {
   const {
     initialState: { currentUser },
   } = useModel('@@initialState');
-
+  console.log(currentUser, 'currentUser');
   return (
     <>
       <ProCard headerBordered direction="column" colSpan={8}>
@@ -16,11 +16,11 @@ const PersonalInfo = () => {
             layout="vertical"
             dataSource={{
               id: '这是一段文本columns',
-              date: '20200809',
-              money: '1212100',
-              state: 'closed',
-              square: '广东佛山',
-              description: '我就是我， 不一样的烟火',
+              create_time: currentUser?.create_time,
+              money: currentUser?.balances,
+              square: currentUser?.square,
+              description: currentUser?.description,
+              status: currentUser?.status,
             }}
             columns={[
               {
@@ -42,16 +42,16 @@ const PersonalInfo = () => {
               },
               {
                 title: '账号状态',
-                key: 'state',
-                dataIndex: 'state',
+                key: 'status',
+                dataIndex: 'status',
                 valueType: 'select',
                 valueEnum: {
                   all: { text: '全部', status: 'Default' },
-                  open: {
+                  invalid: {
                     text: '异常',
                     status: 'Error',
                   },
-                  closed: {
+                  valid: {
                     text: '正常',
                     status: 'Success',
                   },
@@ -71,8 +71,15 @@ const PersonalInfo = () => {
             ]}
           />
         </ProCard>
-        <ProCard bordered title="账号信息" style={{ marginTop: 20 }}>
-          你充Q币嘛 你充Q币嘛 你充Q币嘛 你充Q币嘛
+        <ProCard
+          bordered
+          title="账号信息"
+          style={{ marginTop: 20 }}
+          actions={[<MoneyCollectOutlined title="充值" key="momey" />]}
+        >
+          <div>
+            现金余额: <h2>￥{currentUser.balances}</h2>
+          </div>
         </ProCard>
       </ProCard>
     </>

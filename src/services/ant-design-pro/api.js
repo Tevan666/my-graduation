@@ -5,17 +5,16 @@ import { request } from 'umi';
 /** 获取当前的用户 GET /api/currentUser */
 
 export async function currentUser(options) {
-  debugger;
   return request('/api/currentUser', {
     method: 'GET',
     ...(options || {}),
   });
 }
 
-export async function currentUserInfo(userId) {
-  return request('/api/local/user_info', {
+export async function currentUserInfo(token) {
+  return request('/api/user_info', {
     method: 'GET',
-    data: userId,
+    headers: { token: token },
   });
 }
 /** 退出登录接口 POST /api/login/outLogin */

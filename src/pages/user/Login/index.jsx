@@ -15,7 +15,6 @@ import { login } from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 import styles from './index.less';
 import logoImg from '../../../assets/last.png';
-import { RecoilRoot, atom, selector, useRecoilState, useRecoilValue } from 'recoil';
 
 import { Image } from 'antd';
 
@@ -32,43 +31,17 @@ const LoginMessage = ({ content }) => (
   />
 );
 
-export const userInfo = atom({
-  key: 'userInfo',
-  default: {
-    userid: '',
-    name: '',
-    create_time: '',
-    email: '',
-    description: '',
-    phone: '',
-    square: '',
-    status: '',
-    balances: '',
-    update_time: '',
-  },
-});
-
-export const updateUserInfo = selector({
-  key: 'updateUserInfo',
-  get: ({ get }) => {
-    const amount = get(animalState).amount + get(plantState).amount;
-    return amount;
-  },
-});
-
 const Login = () => {
   const [userLoginState, setUserLoginState] = useState({});
   const [codeSrc, setCodeSrc] = useState('');
   const [type, setType] = useState('account');
   const { initialState, setInitialState } = useModel('@@initialState');
   const intl = useIntl();
-  const [userState, setUserState] = useRecoilState(userInfo);
   useEffect(() => {
     getSrc();
   }, []);
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
-    console.log(userInfo, 'userInfo');
     if (userInfo) {
       await setInitialState((s) => ({ ...s, currentUser: userInfo }));
     }
@@ -84,37 +57,18 @@ const Login = () => {
     try {
       // 登录
       const msg = await login({ ...values, type });
-      if (msg.status === 200) {
+      if (msg.code === 0) {
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
         });
-        setUserState({
-          ...userState,
-          userid: msg?.data?.userId,
-          name: msg?.data?.name,
-          create_time: msg?.data?.create_time,
-          email: msg?.data?.email,
-          description: msg?.data?.description,
-          phone: msg?.data?.phone,
-          square: msg?.data?.square,
-          status: msg?.data?.square,
-          balances: msg?.data?.balances,
-          update_time: msg?.data?.update_time,
-        });
-        message.success(defaultLoginSuccessMessage);
+        localStorage.setItem('token', msg.token);
+        message.success('登录成功！');
         await fetchUserInfo();
         /** 此方法会跳转到 redirect 参数所在的位置 */
-        if (!history) return;
-        const { query } = history.location;
-        const { redirect } = query;
-        history.push(redirect || '/');
+        history.push('/welcome');
         return;
       }
-
-      console.log(msg); // 如果失败去设置用户错误信息
-
-      setUserLoginState(msg);
     } catch (error) {
       const defaultLoginFailureMessage = intl.formatMessage({
         id: 'pages.login.failure',
@@ -126,7 +80,7 @@ const Login = () => {
 
   const { status, type: loginType } = userLoginState;
   return (
-    <RecoilRoot>
+    <>
       <div className={styles.container}>
         <div className={styles.loginImg}>
           <img src={logoImg} alt="" />
@@ -360,7 +314,7 @@ const Login = () => {
           </LoginForm>
         </div>
       </div>
-    </RecoilRoot>
+    </>
   );
 };
 

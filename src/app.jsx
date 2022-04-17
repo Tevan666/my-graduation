@@ -6,8 +6,6 @@ import Footer from '@/components/Footer';
 import { currentUser as queryCurrentUser, currentUserInfo } from './services/ant-design-pro/api';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import logo from './assets/logo.png';
-import { useRecoilValue } from 'recoil';
-import { userInfo } from './pages/user/Login';
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
 /** 获取用户信息比较慢的时候会展示一个 loading */
@@ -22,10 +20,11 @@ export const initialStateConfig = {
 export async function getInitialState() {
   const fetchUserInfo = async () => {
     try {
-      const msg = await queryCurrentUser();
+      const token = localStorage.getItem('token');
+      const msg = await currentUserInfo(token);
       return msg.data;
     } catch (error) {
-      // history.push(loginPath);
+      history.push(loginPath);
     }
 
     return undefined;
@@ -33,8 +32,6 @@ export async function getInitialState() {
 
   if (history.location.pathname !== loginPath) {
     const currentUser = await fetchUserInfo();
-    // const user_info = await currentUserInfo('94597');
-    // console.log(user_info, 'info');
     return {
       fetchUserInfo,
       currentUser,
@@ -60,7 +57,6 @@ export const layout = ({ initialState, setInitialState }) => {
     footerRender: () => <Footer />,
     onPageChange: () => {
       const { location } = history; // 如果没有登录，重定向到 login
-
       if (!initialState?.currentUser && location.pathname !== loginPath) {
         history.push(loginPath);
       }
