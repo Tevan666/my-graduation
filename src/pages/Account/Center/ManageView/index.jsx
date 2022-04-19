@@ -1,16 +1,31 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StatisticCard } from '@ant-design/pro-card';
 import RcResizeObserver from 'rc-resize-observer';
 
 import ProCard from '@ant-design/pro-card';
 import { Button } from 'antd';
 import { BarChartOutlined, DotChartOutlined, AreaChartOutlined } from '@ant-design/icons';
-
+import { getUserUploadRecord } from '../user.service';
 const { Divider } = StatisticCard;
 
 const ManageView = () => {
   const [responsive, setResponsive] = useState(false);
+  const [animalRecord, setAnimalRecord] = useState();
+  const [plantRecord, setPlantRecord] = useState();
 
+  const getUploadRecord = async (type) => {
+    if (type === 'animal') {
+      const record = await getUserUploadRecord({ type: type });
+      setAnimalRecord(record);
+    } else if (type === 'plant') {
+      const record = await getUserUploadRecord({ type: type });
+      setPlantRecord(record);
+    }
+  };
+  useEffect(() => {
+    getUploadRecord('animal');
+    getUploadRecord('plant');
+  }, []);
   return (
     <>
       <ProCard.Group headerBordered direction="column">
@@ -26,7 +41,7 @@ const ManageView = () => {
                 statistic={{
                   title: '动物识别',
                   icon: <BarChartOutlined />,
-                  value: 102,
+                  value: animalRecord?.total,
                   suffix: '次',
                 }}
                 chart={
@@ -42,7 +57,7 @@ const ManageView = () => {
                 statistic={{
                   title: '植物识别',
                   icon: <DotChartOutlined />,
-                  value: 234,
+                  value: plantRecord?.total,
                   suffix: '次',
                 }}
                 chart={

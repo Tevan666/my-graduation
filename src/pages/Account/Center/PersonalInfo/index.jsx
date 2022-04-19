@@ -78,7 +78,7 @@ const PersonalInfo = () => {
           actions={[<MoneyCollectOutlined title="充值" key="momey" />]}
         >
           <div>
-            现金余额: <h2>￥{currentUser.balances}</h2>
+            现金余额: <h2>￥{currentUser?.balances}</h2>
           </div>
         </ProCard>
       </ProCard>

@@ -42,6 +42,8 @@ const Login = () => {
   }, []);
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
+    localStorage.setItem('userId', userInfo.userId);
+
     if (userInfo) {
       await setInitialState((s) => ({ ...s, currentUser: userInfo }));
     }

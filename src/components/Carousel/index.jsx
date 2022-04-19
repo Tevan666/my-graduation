@@ -15,7 +15,7 @@ const CarouselComponent = (props) => {
         <p className="legend">动物识别</p>
       </div>
       <div key={2}>
-        <img src={require('@/assets/plant.png')} />
+        <img src={async () => import('@/assets/plant.png')} />
         <p className="legend">植物识别</p>
       </div>
       <div key={3}>
