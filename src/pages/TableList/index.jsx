@@ -124,8 +124,12 @@ const TableList = () => {
       },
     },
     {
+      title: <FormattedMessage id="pages.searchTable.type" defaultMessage="类型" />,
+      dataIndex: 'type',
+    },
+    {
       title: <FormattedMessage id="pages.searchTable.titleDesc" defaultMessage="Description" />,
-      dataIndex: 'desc',
+      dataIndex: 'description',
       valueType: 'textarea',
     },
     {
@@ -135,51 +139,23 @@ const TableList = () => {
           defaultMessage="Number of service calls"
         />
       ),
-      dataIndex: 'callNo',
-      sorter: true,
+      dataIndex: 'baike_url',
       hideInForm: true,
-      renderText: (val) =>
-        `${val}${intl.formatMessage({
-          id: 'pages.searchTable.tenThousand',
-          defaultMessage: ' 万 ',
-        })}`,
+      render: (text) => (
+        <a href={'http://' + text} target="_blank" rel="noreferrer">
+          {text}
+        </a>
+      ),
+    },
+    {
+      title: <FormattedMessage id="pages.searchTable.picture" defaultMessage="图片地址" />,
+      dataIndex: 'img_url',
+      hideInForm: true,
     },
     {
       title: <FormattedMessage id="pages.searchTable.titleStatus" defaultMessage="Status" />,
       dataIndex: 'status',
       hideInForm: true,
-      valueEnum: {
-        0: {
-          text: (
-            <FormattedMessage
-              id="pages.searchTable.nameStatus.default"
-              defaultMessage="Shut down"
-            />
-          ),
-          status: 'Default',
-        },
-        1: {
-          text: (
-            <FormattedMessage id="pages.searchTable.nameStatus.running" defaultMessage="Running" />
-          ),
-          status: 'Processing',
-        },
-        2: {
-          text: (
-            <FormattedMessage id="pages.searchTable.nameStatus.online" defaultMessage="Online" />
-          ),
-          status: 'Success',
-        },
-        3: {
-          text: (
-            <FormattedMessage
-              id="pages.searchTable.nameStatus.abnormal"
-              defaultMessage="Abnormal"
-            />
-          ),
-          status: 'Error',
-        },
-      },
     },
     {
       title: (
@@ -189,29 +165,8 @@ const TableList = () => {
         />
       ),
       sorter: true,
-      dataIndex: 'updatedAt',
+      dataIndex: 'upload_time',
       valueType: 'dateTime',
-      renderFormItem: (item, { defaultRender, ...rest }, form) => {
-        const status = form.getFieldValue('status');
-
-        if (`${status}` === '0') {
-          return false;
-        }
-
-        if (`${status}` === '3') {
-          return (
-            <Input
-              {...rest}
-              placeholder={intl.formatMessage({
-                id: 'pages.searchTable.exception',
-                defaultMessage: 'Please enter the reason for the exception!',
-              })}
-            />
-          );
-        }
-
-        return defaultRender(item);
-      },
     },
     {
       title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Operating" />,
@@ -226,12 +181,6 @@ const TableList = () => {
           }}
         >
           <FormattedMessage id="pages.searchTable.config" defaultMessage="Configuration" />
-        </a>,
-        <a key="subscribeAlert" href="https://procomponents.ant.design/">
-          <FormattedMessage
-            id="pages.searchTable.subscribeAlert"
-            defaultMessage="Subscribe to alerts"
-          />
         </a>,
       ],
     },
