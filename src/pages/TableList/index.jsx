@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer } from 'antd';
+import { Button, message, Image, Drawer, Tooltip } from 'antd';
 import React, { useState, useRef } from 'react';
 import { useIntl, FormattedMessage } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
@@ -126,11 +126,27 @@ const TableList = () => {
     {
       title: <FormattedMessage id="pages.searchTable.type" defaultMessage="类型" />,
       dataIndex: 'type',
+      valueEnum: {
+        animal: {
+          text: '动物',
+        },
+        plant: {
+          text: '植物',
+        },
+      },
     },
     {
       title: <FormattedMessage id="pages.searchTable.titleDesc" defaultMessage="Description" />,
       dataIndex: 'description',
       valueType: 'textarea',
+      search: false,
+      width: 180,
+      ellipsis: true,
+      render: (text) => (
+        <Tooltip title={text} className="truncate">
+          {text}
+        </Tooltip>
+      ),
     },
     {
       title: (
@@ -141,16 +157,35 @@ const TableList = () => {
       ),
       dataIndex: 'baike_url',
       hideInForm: true,
+      search: false,
+      width: 180,
+      ellipsis: true,
       render: (text) => (
-        <a href={'http://' + text} target="_blank" rel="noreferrer">
-          {text}
-        </a>
+        <Tooltip title={text} className="truncate text-white">
+          <a href={'http://' + text} target="_blank" rel="noreferrer">
+            {text}
+          </a>
+        </Tooltip>
       ),
     },
     {
       title: <FormattedMessage id="pages.searchTable.picture" defaultMessage="图片地址" />,
       dataIndex: 'img_url',
       hideInForm: true,
+      search: false,
+      width: 180,
+      ellipsis: true,
+      render: (text) => (
+        <Tooltip title={text} className="truncate">
+          <a
+            href="https://bkimg.cdn.bcebos.com/pic/f9dcd100baa1cd11e6db6e9db112c8fcc3ce2d19"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {text}
+          </a>
+        </Tooltip>
+      ),
     },
     {
       title: <FormattedMessage id="pages.searchTable.titleStatus" defaultMessage="Status" />,

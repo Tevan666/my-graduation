@@ -1,5 +1,6 @@
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
+import plant from '@/assets/plant.png';
 
 const CarouselComponent = (props) => {
   return (
@@ -15,7 +16,7 @@ const CarouselComponent = (props) => {
         <p className="legend">动物识别</p>
       </div>
       <div key={2}>
-        <img src={async () => import('@/assets/plant.png')} />
+        <img src={plant} />
         <p className="legend">植物识别</p>
       </div>
       <div key={3}>
