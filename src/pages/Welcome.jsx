@@ -4,6 +4,16 @@ import { Card, Alert, Typography } from 'antd';
 import { useIntl, FormattedMessage } from 'umi';
 import styles from './Welcome.less';
 import { Carousel } from 'antd';
+import bird from '@/assets/bird.png';
+import book from '@/assets/book.png';
+import butterfly from '@/assets/butterfly.png';
+import chicken from '@/assets/chicken.png';
+import elephant from '@/assets/elephant.png';
+import niu from '@/assets/niu.png';
+import phone from '@/assets/phone.png';
+import shoes from '@/assets/shoes.png';
+import songshu from '@/assets/songshu.png';
+import watch from '@/assets/watch.png';
 
 const CodePreview = ({ children }) => (
   <pre className={styles.pre}>
@@ -41,34 +51,34 @@ const Welcome = () => {
       </Card>
       <Carousel autoplay arrows={true} className={styles.imgBox} effect="fade">
         <div>
-          <img className={styles.imgStyle} src={require('@/assets/bird.png')} alt="" />
+          <img className={styles.imgStyle} src={bird} alt="" />
         </div>
         <div>
-          <img className={styles.imgStyle} src={require('@/assets/book.png')} alt="" />
+          <img className={styles.imgStyle} src={book} alt="" />
         </div>
         <div>
-          <img className={styles.imgStyle} src={require('@/assets/butterfly.png')} alt="" />
+          <img className={styles.imgStyle} src={butterfly} alt="" />
         </div>
         <div>
-          <img className={styles.imgStyle} src={require('@/assets/chicken.png')} alt="" />
+          <img className={styles.imgStyle} src={chicken} alt="" />
         </div>
         <div>
-          <img className={styles.imgStyle} src={require('@/assets/elephant.png')} alt="" />
+          <img className={styles.imgStyle} src={elephant} alt="" />
         </div>
         <div>
-          <img className={styles.imgStyle} src={require('@/assets/niu.png')} alt="" />
+          <img className={styles.imgStyle} src={niu} alt="" />
         </div>
         <div>
-          <img className={styles.imgStyle} src={require('@/assets/phone.png')} alt="" />
+          <img className={styles.imgStyle} src={phone} alt="" />
         </div>
         <div>
-          <img className={styles.imgStyle} src={require('@/assets/shoes.png')} alt="" />
+          <img className={styles.imgStyle} src={shoes} alt="" />
         </div>
         <div>
-          <img className={styles.imgStyle} src={require('@/assets/songshu.png')} alt="" />
+          <img className={styles.imgStyle} src={songshu} alt="" />
         </div>
         <div>
-          <img className={styles.imgStyle} src={require('@/assets/watch.png')} alt="" />
+          <img className={styles.imgStyle} src={watch} alt="" />
         </div>
       </Carousel>
     </PageContainer>
