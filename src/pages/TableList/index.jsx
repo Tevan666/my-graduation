@@ -109,6 +109,7 @@ const TableList = () => {
         />
       ),
       dataIndex: 'name',
+      key: 'name',
       tip: 'The rule name is the unique key',
       render: (dom, entity) => {
         return (
@@ -126,6 +127,7 @@ const TableList = () => {
     {
       title: <FormattedMessage id="pages.searchTable.type" defaultMessage="类型" />,
       dataIndex: 'type',
+      key: 'type',
       valueEnum: {
         animal: {
           text: '动物',
@@ -138,6 +140,7 @@ const TableList = () => {
     {
       title: <FormattedMessage id="pages.searchTable.titleDesc" defaultMessage="Description" />,
       dataIndex: 'description',
+      key: 'description',
       valueType: 'textarea',
       search: false,
       width: 180,
@@ -156,32 +159,33 @@ const TableList = () => {
         />
       ),
       dataIndex: 'baike_url',
+      key: 'baike_url',
       hideInForm: true,
       search: false,
       width: 180,
       ellipsis: true,
-      render: (text) => (
-        <Tooltip title={text} className="truncate text-white">
-          <a href={'http://' + text} target="_blank" rel="noreferrer">
-            {text}
-          </a>
-        </Tooltip>
-      ),
+      render: (text) => {
+        console.log(text, 'text');
+        return (
+          <Tooltip title={text} className="truncate text-white">
+            <a href={`http://${text}`} target="_blank" rel="noreferrer">
+              {text}
+            </a>
+          </Tooltip>
+        );
+      },
     },
     {
       title: <FormattedMessage id="pages.searchTable.picture" defaultMessage="图片地址" />,
       dataIndex: 'img_url',
+      key: 'img_url',
       hideInForm: true,
       search: false,
       width: 180,
       ellipsis: true,
       render: (text) => (
         <Tooltip title={text} className="truncate">
-          <a
-            href="https://bkimg.cdn.bcebos.com/pic/f9dcd100baa1cd11e6db6e9db112c8fcc3ce2d19"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href={text} target="_blank" rel="noreferrer">
             {text}
           </a>
         </Tooltip>
@@ -190,6 +194,7 @@ const TableList = () => {
     {
       title: <FormattedMessage id="pages.searchTable.titleStatus" defaultMessage="Status" />,
       dataIndex: 'status',
+      key: 'status',
       hideInForm: true,
     },
     {
@@ -201,11 +206,13 @@ const TableList = () => {
       ),
       sorter: true,
       dataIndex: 'upload_time',
+      key: 'upload_time',
       valueType: 'dateTime',
     },
     {
       title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Operating" />,
       dataIndex: 'option',
+      key: 'option',
       valueType: 'option',
       render: (_, record) => [
         <a
@@ -228,7 +235,7 @@ const TableList = () => {
           defaultMessage: 'Enquiry form',
         })}
         actionRef={actionRef}
-        rowKey="key"
+        rowKey="id"
         search={{
           labelWidth: 120,
         }}
