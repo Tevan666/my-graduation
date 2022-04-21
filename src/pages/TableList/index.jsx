@@ -165,10 +165,9 @@ const TableList = () => {
       width: 180,
       ellipsis: true,
       render: (text) => {
-        console.log(text, 'text');
         return (
           <Tooltip title={text} className="truncate text-white">
-            <a href={text.props.children} target="_blank" rel="noreferrer">
+            <a href={text?.props?.children} target="_blank" rel="noreferrer">
               {text}
             </a>
           </Tooltip>
@@ -185,7 +184,7 @@ const TableList = () => {
       ellipsis: true,
       render: (text) => (
         <Tooltip title={text} className="truncate">
-          <a href={text.props.children} target="_blank" rel="noreferrer">
+          <a href={text?.props?.children} target="_blank" rel="noreferrer">
             {text}
           </a>
         </Tooltip>
