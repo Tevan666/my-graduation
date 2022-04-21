@@ -111,7 +111,7 @@ const TableList = () => {
       dataIndex: 'name',
       key: 'name',
       tip: 'The rule name is the unique key',
-      render: (dom, entity) => {
+      render: (text, entity) => {
         return (
           <a
             onClick={() => {
@@ -119,7 +119,7 @@ const TableList = () => {
               setShowDetail(true);
             }}
           >
-            {dom}
+            {text}
           </a>
         );
       },
@@ -168,7 +168,7 @@ const TableList = () => {
         console.log(text, 'text');
         return (
           <Tooltip title={text} className="truncate text-white">
-            <a href={`http://${text}`} target="_blank" rel="noreferrer">
+            <a href={text.props.children} target="_blank" rel="noreferrer">
               {text}
             </a>
           </Tooltip>
@@ -185,7 +185,7 @@ const TableList = () => {
       ellipsis: true,
       render: (text) => (
         <Tooltip title={text} className="truncate">
-          <a href={text} target="_blank" rel="noreferrer">
+          <a href={text.props.children} target="_blank" rel="noreferrer">
             {text}
           </a>
         </Tooltip>
