@@ -55,6 +55,7 @@ export default {
   'pages.searchTable.picture': '图片地址',
   'pages.searchTable.type': '类型',
   'pages.searchTable.titleStatus': '状态',
+  'pages.searchTable.square': '地区',
   'pages.searchTable.nameStatus.default': '关闭',
   'pages.searchTable.nameStatus.running': '运行中',
   'pages.searchTable.nameStatus.online': '已上线',

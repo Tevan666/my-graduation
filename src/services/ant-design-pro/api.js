@@ -78,3 +78,14 @@ export async function removeRule(options) {
     ...(options || {}),
   });
 }
+
+/**
+ * 查询各省份使用人数
+ *
+ *
+ */
+export async function getMapNum() {
+  return request('/api/count', {
+    method: 'GET',
+  });
+}

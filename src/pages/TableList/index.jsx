@@ -1,6 +1,6 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Image, Drawer, Tooltip } from 'antd';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useIntl, FormattedMessage } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
@@ -8,6 +8,7 @@ import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import UpdateForm from './components/UpdateForm';
 import { rule, addRule, updateRule, removeRule } from '@/services/ant-design-pro/api';
+import MapChart from '@/components/Charts/mapChart';
 /**
  * @en-US Add node
  * @zh-CN 添加节点
@@ -88,17 +89,23 @@ const TableList = () => {
    * @en-US The pop-up window of the distribution update window
    * @zh-CN 分布更新窗口的弹窗
    * */
+  const [mapData, setMapData] = useState([]);
 
   const [updateModalVisible, handleUpdateModalVisible] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const actionRef = useRef();
   const [currentRow, setCurrentRow] = useState();
   const [selectedRowsState, setSelectedRows] = useState([]);
+
   /**
    * @en-US International configuration
    * @zh-CN 国际化配置
    * */
-
+  useEffect(() => {
+    rule({ access: true }).then((res) => {
+      setMapData(res.data);
+    });
+  }, []);
   const intl = useIntl();
   const columns = [
     {
@@ -191,9 +198,9 @@ const TableList = () => {
       ),
     },
     {
-      title: <FormattedMessage id="pages.searchTable.titleStatus" defaultMessage="Status" />,
-      dataIndex: 'status',
-      key: 'status',
+      title: <FormattedMessage id="pages.searchTable.square" defaultMessage="square" />,
+      dataIndex: 'square',
+      key: 'square',
       hideInForm: true,
     },
     {
@@ -228,6 +235,8 @@ const TableList = () => {
   ];
   return (
     <PageContainer>
+      <MapChart style={{ height: 900 }} data={mapData} />
+
       <ProTable
         headerTitle={intl.formatMessage({
           id: 'pages.searchTable.title',
