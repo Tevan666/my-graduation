@@ -4,6 +4,6 @@
 export default function access(initialState) {
   const { currentUser } = initialState || {};
   return {
-    canAdmin: currentUser && currentUser.status === 0,
+    canAdmin: currentUser && currentUser.status === 'valid',
   };
 }
