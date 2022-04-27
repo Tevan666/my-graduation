@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import ProCard from '@ant-design/pro-card';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Alert, Button, message, Modal, Tag, Space } from 'antd';
 import ProList from '@ant-design/pro-list';
+import { useModel } from 'umi';
+import { PhoneOutlined, WhatsAppOutlined } from '@ant-design/icons';
 
 import CommonMessage from './CommonMessage';
 
+import { bindEmail } from '../account-service';
 const handleDelete = () => {
   Modal.confirm({
     title: '你确定?',
@@ -20,40 +23,41 @@ const handleDelete = () => {
   });
 };
 
-const defaultData = [
-  {
-    id: '1',
-    name: '语雀的天空',
-    image:
-      'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-    desc: '我是一条测试的描述',
-  },
-  {
-    id: '2',
-    name: 'Ant Design',
-    image:
-      'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-    desc: '我是一条测试的描述',
-  },
-  {
-    id: '3',
-    name: '蚂蚁金服体验科技',
-    image:
-      'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-    desc: '我是一条测试的描述',
-  },
-  {
-    id: '4',
-    name: 'TechUI',
-    image:
-      'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-    desc: '我是一条测试的描述',
-  },
-];
-
 const Settings = () => {
-  const [dataSource, setDataSource] = useState(defaultData);
-
+  const [dataSource, setDataSource] = useState([]);
+  const { initialState } = useModel('@@initialState');
+  const { currentUser } = initialState || {};
+  const defaultData = [
+    {
+      id: '1',
+      name: '绑定手机号',
+      image: <PhoneOutlined />,
+      desc: currentUser?.phone || '-',
+    },
+    {
+      id: '2',
+      name: '绑定邮箱',
+      image: <WhatsAppOutlined />,
+      desc: currentUser?.email || '-',
+    },
+    {
+      id: '3',
+      name: '蚂蚁金服体验科技',
+      image:
+        'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
+      desc: '我是一条测试的描述',
+    },
+    {
+      id: '4',
+      name: 'TechUI',
+      image:
+        'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
+      desc: '我是一条测试的描述',
+    },
+  ];
+  useEffect(() => {
+    setDataSource(defaultData);
+  }, []);
   return (
     <>
       <PageContainer title="个人设置">
@@ -83,7 +87,15 @@ const Settings = () => {
               dataSource={dataSource}
               editable={{
                 onSave: async (key, record, originRow) => {
-                  console.log(key, record, originRow);
+                  if (record.name === '绑定邮箱') {
+                    await bindEmail({ email: record.desc }).then((res) => {
+                      if (res.code === 0) {
+                        message.success(res.message);
+                      } else if (res.message) {
+                        message.error(res.message);
+                      }
+                    });
+                  }
                   return true;
                 },
               }}
@@ -98,16 +110,6 @@ const Settings = () => {
                 },
                 description: {
                   dataIndex: 'desc',
-                },
-                subTitle: {
-                  render: () => {
-                    return (
-                      <Space size={0}>
-                        <Tag color="blue">Ant Design</Tag>
-                        <Tag color="#5BD8A6">TechUI</Tag>
-                      </Space>
-                    );
-                  },
                 },
                 actions: {
                   render: (text, row, index, action) => [
