@@ -1,5 +1,5 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Image, Drawer, Tooltip } from 'antd';
+import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { Button, message, Image, Drawer, Tooltip, Modal } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { useIntl, FormattedMessage } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
@@ -7,14 +7,14 @@ import ProTable from '@ant-design/pro-table';
 import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import UpdateForm from './components/UpdateForm';
-import { rule, addRule, updateRule, removeRule } from '@/services/ant-design-pro/api';
+import { rule, addRule, deleteHistory, removeRule } from '@/services/ant-design-pro/api';
 import MapChart from '@/components/Charts/mapChart';
 /**
  * @en-US Add node
  * @zh-CN 添加节点
  * @param fields
  */
-
+const { confirm } = Modal;
 const handleAdd = async (fields) => {
   const hide = message.loading('正在添加');
 
@@ -36,24 +36,6 @@ const handleAdd = async (fields) => {
  * @param fields
  */
 
-const handleUpdate = async (fields) => {
-  const hide = message.loading('Configuring');
-
-  try {
-    await updateRule({
-      name: fields.name,
-      desc: fields.desc,
-      key: fields.key,
-    });
-    hide();
-    message.success('Configuration is successful');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('Configuration failed, please try again!');
-    return false;
-  }
-};
 /**
  *  Delete node
  * @zh-CN 删除节点
@@ -101,12 +83,34 @@ const TableList = () => {
    * @en-US International configuration
    * @zh-CN 国际化配置
    * */
-  useEffect(() => {
-    rule({ access: true }).then((res) => {
-      setMapData(res.data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   rule({ access: true }).then((res) => {
+  //     setMapData(res.data);
+  //   });
+  // }, []);
+
   const intl = useIntl();
+  const handleDelete = async (props) => {
+    confirm({
+      title: '你确定要删除吗？',
+      icon: <ExclamationCircleOutlined />,
+      okText: '确定',
+      okType: 'danger',
+      cancelText: '取消',
+      onOk() {
+        deleteHistory({ id: props.id }).then((res) => {
+          if (res.code == 0) {
+            message.success(res.message);
+            actionRef?.current.reload();
+          } else if (res.message) {
+            message.error(res.message);
+          }
+        });
+      },
+      onCancel() {},
+    });
+  };
+
   const columns = [
     {
       title: (
@@ -220,22 +224,20 @@ const TableList = () => {
       dataIndex: 'option',
       key: 'option',
       valueType: 'option',
-      render: (_, record) => [
-        <a
-          key="config"
-          onClick={() => {
-            handleUpdateModalVisible(true);
-            setCurrentRow(record);
-          }}
-        >
-          <FormattedMessage id="pages.searchTable.config" defaultMessage="Configuration" />
-        </a>,
-      ],
+      render: (current, record, index, action) => {
+        return (
+          <>
+            <a onClick={() => handleDelete(record)}>
+              <FormattedMessage id="pages.searchTable.config" defaultMessage="Configuration" />
+            </a>
+          </>
+        );
+      },
     },
   ];
   return (
     <PageContainer>
-      <MapChart style={{ height: 900 }} data={mapData} />
+      <MapChart style={{ height: 900 }} />
 
       <ProTable
         headerTitle={intl.formatMessage({
@@ -348,30 +350,6 @@ const TableList = () => {
         />
         <ProFormTextArea width="md" name="desc" />
       </ModalForm>
-      <UpdateForm
-        onSubmit={async (value) => {
-          const success = await handleUpdate(value);
-
-          if (success) {
-            handleUpdateModalVisible(false);
-            setCurrentRow(undefined);
-
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
-          }
-        }}
-        onCancel={() => {
-          handleUpdateModalVisible(false);
-
-          if (!showDetail) {
-            setCurrentRow(undefined);
-          }
-        }}
-        updateModalVisible={updateModalVisible}
-        values={currentRow || {}}
-      />
-
       <Drawer
         width={600}
         visible={showDetail}

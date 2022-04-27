@@ -54,12 +54,14 @@ export async function rule(params, options) {
     ...(options || {}),
   });
 }
-/** 新建规则 PUT /api/rule */
+/** 删除上传历史 DELETE /api/upload */
 
-export async function updateRule(options) {
-  return request('/api/rule', {
-    method: 'PUT',
-    ...(options || {}),
+export async function deleteHistory(id) {
+  console.log('id', id);
+
+  return request('/api/upload', {
+    method: 'DELETE',
+    params: id,
   });
 }
 /** 新建规则 POST /api/rule */

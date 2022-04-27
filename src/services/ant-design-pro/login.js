@@ -7,6 +7,7 @@ import { request } from 'umi';
 export async function getEmailCode(params) {
   return request('/api/send', {
     method: 'GET',
-    params: { ...params },
+    params: { email: encodeURIComponent(params.email), code: params.code },
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
   });
 }

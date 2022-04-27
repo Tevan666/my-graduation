@@ -12,7 +12,7 @@ import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-de
 import { useIntl, history, FormattedMessage, SelectLang, useModel } from 'umi';
 import Footer from '@/components/Footer';
 import { login } from '@/services/ant-design-pro/api';
-import { getFakeCaptcha } from '@/services/ant-design-pro/login';
+import { getEmailCode } from '@/services/ant-design-pro/login';
 import styles from './index.less';
 import logoImg from '../../../assets/last.png';
 
@@ -142,7 +142,7 @@ const Login = () => {
             {type === 'account' && (
               <>
                 <ProFormText
-                  name="phone"
+                  name="email"
                   fieldProps={{
                     size: 'large',
                     prefix: <UserOutlined className={styles.prefixIcon} />,
@@ -188,7 +188,8 @@ const Login = () => {
                       defaultMessage: '获取验证码',
                     });
                   }}
-                  name="captcha"
+                  phoneName="email"
+                  name="code"
                   rules={[
                     {
                       required: true,
@@ -201,8 +202,10 @@ const Login = () => {
                     },
                   ]}
                   onGetCaptcha={async (email) => {
-                    const result = await getFakeCaptcha({
-                      email,
+                    console.log(email, 'email');
+                    const result = await getEmailCode({
+                      email: `${encodeURIComponent(email)}`,
+                      type: 'login',
                     });
 
                     if (result === false) {
@@ -223,7 +226,7 @@ const Login = () => {
                     size: 'large',
                     prefix: <MobileOutlined className={styles.prefixIcon} />,
                   }}
-                  name="mobile"
+                  name="phone"
                   placeholder={intl.formatMessage({
                     id: 'pages.login.phoneNumber.placeholder',
                     defaultMessage: '手机号',

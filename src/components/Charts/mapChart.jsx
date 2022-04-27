@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { getMapNum } from '@/services/ant-design-pro/api';
 import { ChoroplethMap } from '@ant-design/maps';
 
-const MapChart = ({ data }) => {
+const MapChart = () => {
   const [province_num, setProvince_num] = useState({ type: 'FeatureCollection', features: [] });
   const getPeopleNum = async () => {
     await getMapNum().then((res) => setProvince_num(res));
