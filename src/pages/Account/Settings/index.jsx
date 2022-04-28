@@ -95,9 +95,18 @@ const Settings = () => {
                         message.error(res.message);
                       }
                     });
+                  } else if (record.name === '绑定手机号') {
+                    await bindEmail({ phone: record.desc }).then((res) => {
+                      if (res.code === 0) {
+                        message.success(res.message);
+                      } else if (res.message) {
+                        message.error(res.message);
+                      }
+                    });
                   }
                   return true;
                 },
+                actionRender: (row, config, dom) => [dom.save, dom.cancel],
               }}
               onDataSourceChange={setDataSource}
               metas={{
