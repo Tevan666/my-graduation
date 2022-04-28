@@ -11,6 +11,7 @@ import ProForm, {
 } from '@ant-design/pro-form';
 
 import city from '../city.json';
+import { updateUser } from '../../account-service';
 
 const props = {
   name: 'file',
@@ -30,9 +31,17 @@ const props = {
   },
 };
 
-const handleEdit = (values) => {
-  console.log(values);
-  message.success('提交成功');
+const handleEdit = async (values) => {
+  console.log(values.square.join(), 'str');
+
+  params = { ...values, square: values.square };
+  // await updateUser.then((res) => {
+  //   if (res.code === 0) {
+  //     message.success(res.message);
+  //   } else {
+  //     message.error(res.message);
+  //   }
+  // });
 };
 const CommonMessage = () => {
   const { initialState } = useModel('@@initialState');

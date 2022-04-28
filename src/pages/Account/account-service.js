@@ -8,3 +8,19 @@ export async function bindEmail(options) {
     params: options,
   });
 }
+
+/** 修改用户资料 POST /api/user_info */
+
+export async function updateUser() {
+  return request('/api/user_info', {
+    method: 'POST',
+  });
+}
+
+/** 删除用户 DELETE /api/user_info */
+
+export async function deleteUser() {
+  return request('/api/user_info', {
+    method: 'DELETE',
+  });
+}

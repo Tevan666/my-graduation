@@ -9,13 +9,19 @@ import { PhoneOutlined, WhatsAppOutlined } from '@ant-design/icons';
 
 import CommonMessage from './CommonMessage';
 
-import { bindEmail } from '../account-service';
+import { bindEmail, updateUser, deleteUser } from '../account-service';
 const handleDelete = () => {
   Modal.confirm({
     title: '你确定?',
     content: '确定要注销吗',
     onOk() {
-      message.success('删除成功');
+      deleteUser().then((res) => {
+        if (res.code === 0) {
+          message.success(res.message);
+        } else {
+          message.error(res.message);
+        }
+      });
     },
     onCancel() {
       message.warning('爱你么么哒');
