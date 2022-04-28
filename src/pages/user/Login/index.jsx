@@ -5,6 +5,7 @@ import {
   TaobaoCircleOutlined,
   UserOutlined,
   WeiboCircleOutlined,
+  BarcodeOutlined,
 } from '@ant-design/icons';
 import { Alert, message, Tabs } from 'antd';
 import React, { Fragment, useState } from 'react';
@@ -20,6 +21,7 @@ import { Image } from 'antd';
 
 import { getImgSrc } from './login.service';
 import { useEffect } from 'react';
+import ResetPassword from '@/pages/TableList/components/ResetPassword';
 const LoginMessage = ({ content }) => (
   <Alert
     style={{
@@ -36,6 +38,7 @@ const Login = () => {
   const [codeSrc, setCodeSrc] = useState('');
   const [type, setType] = useState('mobile');
   const { initialState, setInitialState } = useModel('@@initialState');
+  const [updateModalVisible, setUpdateModalVisible] = useState(false);
   const intl = useIntl();
   useEffect(() => {
     getSrc();
@@ -166,7 +169,7 @@ const Login = () => {
                 <ProFormCaptcha
                   fieldProps={{
                     size: 'large',
-                    prefix: <LockOutlined className={styles.prefixIcon} />,
+                    prefix: <BarcodeOutlined className={styles.prefixIcon} />,
                   }}
                   captchaProps={{
                     size: 'large',
@@ -278,7 +281,7 @@ const Login = () => {
                   name="code"
                   fieldProps={{
                     size: 'large',
-                    prefix: <LockOutlined className={styles.prefixIcon} />,
+                    prefix: <BarcodeOutlined className={styles.prefixIcon} />,
                   }}
                   placeholder={intl.formatMessage({
                     id: 'pages.login.code.placeholder',
@@ -311,12 +314,14 @@ const Login = () => {
                 style={{
                   float: 'right',
                 }}
+                onClick={setUpdateModalVisible}
               >
                 <FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码" />
               </a>
             </div>
             <Footer />
           </LoginForm>
+          <ResetPassword visible={updateModalVisible} setModalVisit={setUpdateModalVisible} />
         </div>
       </div>
     </>
