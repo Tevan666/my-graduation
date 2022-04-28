@@ -11,7 +11,7 @@ import React, { Fragment, useState } from 'react';
 import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
 import { useIntl, history, FormattedMessage, SelectLang, useModel } from 'umi';
 import Footer from '@/components/Footer';
-import { login } from '@/services/ant-design-pro/api';
+import { login, email_login } from '@/services/ant-design-pro/api';
 import { getEmailCode } from '@/services/ant-design-pro/login';
 import styles from './index.less';
 import logoImg from '../../../assets/last.png';
@@ -58,18 +58,18 @@ const Login = () => {
   const handleSubmit = async (values) => {
     try {
       // 登录
-      const msg = await login({ ...values, type });
+      console.log(type, 'type');
+      const msg =
+        type == 'mobile' ? await login({ ...values, type }) : await email_login({ ...values });
       if (msg.code === 0) {
-        const defaultLoginSuccessMessage = intl.formatMessage({
-          id: 'pages.login.success',
-          defaultMessage: '登录成功！',
-        });
         localStorage.setItem('token', msg.token);
         message.success('登录成功！');
         await fetchUserInfo();
         /** 此方法会跳转到 redirect 参数所在的位置 */
         history.push('/welcome');
         return;
+      } else if (msg.message) {
+        message.error(msg.message);
       }
     } catch (error) {
       const defaultLoginFailureMessage = intl.formatMessage({
@@ -142,14 +142,14 @@ const Login = () => {
             {type === 'account' && (
               <>
                 <ProFormText
-                  name="email"
+                  name="login_email"
                   fieldProps={{
                     size: 'large',
                     prefix: <UserOutlined className={styles.prefixIcon} />,
                   }}
                   placeholder={intl.formatMessage({
                     id: 'pages.login.username.placeholder',
-                    defaultMessage: '用户名: admin or user',
+                    defaultMessage: '请输入邮箱号',
                   })}
                   rules={[
                     {
@@ -157,7 +157,7 @@ const Login = () => {
                       message: (
                         <FormattedMessage
                           id="pages.login.username.required"
-                          defaultMessage="请输入用户名!"
+                          defaultMessage="请输入邮箱号!"
                         />
                       ),
                     },
@@ -188,7 +188,7 @@ const Login = () => {
                       defaultMessage: '获取验证码',
                     });
                   }}
-                  phoneName="email"
+                  phoneName="login_email"
                   name="code"
                   rules={[
                     {
@@ -202,17 +202,17 @@ const Login = () => {
                     },
                   ]}
                   onGetCaptcha={async (email) => {
-                    console.log(email, 'email');
                     const result = await getEmailCode({
-                      email: `${encodeURIComponent(email)}`,
+                      email: email,
                       type: 'login',
                     });
 
-                    if (result === false) {
+                    if (result.code != 0) {
+                      message.error('邮件发送失败，请稍后再试');
                       return;
                     }
 
-                    message.success('获取验证码成功！验证码为：1234');
+                    message.success('获取验证码成功！');
                   }}
                 />
               </>

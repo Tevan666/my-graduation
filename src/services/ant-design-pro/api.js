@@ -37,6 +37,18 @@ export async function login(body, options) {
     ...(options || {}),
   });
 }
+
+/** 邮箱登录接口 POST /api/login/account */
+
+export async function email_login(body) {
+  return request('/api/email_login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    params: { ...body, login_email: encodeURI(body.login_email) },
+  });
+}
 /** 此处后端没有提供注释 GET /api/notices */
 
 export async function getNotices(options) {
