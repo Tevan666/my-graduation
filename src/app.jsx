@@ -192,9 +192,10 @@ export const request = {
   requestInterceptors: [
     (url, options) => {
       const userId = localStorage.getItem('userId');
+      const token = localStorage.getItem('token');
       const inoptions = {
         ...options,
-        headers: { ...options.headers, Authorization: '' },
+        headers: { ...options.headers, token: token },
       };
       if (!userId) {
         console.log(1111);

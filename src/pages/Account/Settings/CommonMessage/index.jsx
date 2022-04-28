@@ -31,22 +31,23 @@ const props = {
   },
 };
 
-const handleEdit = async (values) => {
-  console.log(values.square.join(), 'str');
-
-  params = { ...values, square: values.square };
-  // await updateUser.then((res) => {
-  //   if (res.code === 0) {
-  //     message.success(res.message);
-  //   } else {
-  //     message.error(res.message);
-  //   }
-  // });
-};
 const CommonMessage = () => {
   const { initialState } = useModel('@@initialState');
   const { currentUser } = initialState;
   const [editModal, setEditModal] = useState(false);
+
+  const handleEdit = async (values) => {
+    let square = values.square.join().replace(/\,/g, '');
+    const params = { ...values, square: square };
+    await updateUser(params).then((res) => {
+      if (res.code === 0) {
+        message.success(res.message);
+        setEditModal(false);
+      } else {
+        message.error(res.message);
+      }
+    });
+  };
   return (
     <>
       <ProDescriptions
@@ -146,10 +147,17 @@ const CommonMessage = () => {
         destroyonclose="true"
       >
         <ProForm.Group label="用户名">
-          <ProFormText width="md" name="name" tooltip="最长为 10 位" placeholder="请输入名称" />
+          <ProFormText
+            rules={[{ required: true, message: '请输入用户名' }]}
+            width="md"
+            name="username"
+            tooltip="最长为 10 位"
+            placeholder="请输入名称"
+          />
         </ProForm.Group>
         <ProForm.Group label="地区">
           <ProFormCascader
+            rules={[{ required: true, message: '请选择地区' }]}
             name="square"
             fieldProps={{
               options: city,
@@ -157,7 +165,11 @@ const CommonMessage = () => {
           />
         </ProForm.Group>
         <ProForm.Group label="自我介绍">
-          <ProFormTextArea width="md" name="description" />
+          <ProFormTextArea
+            rules={[{ required: true, message: '请输入自我介绍' }]}
+            width="md"
+            name="description"
+          />
         </ProForm.Group>
       </ModalForm>
     </>

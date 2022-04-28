@@ -11,9 +11,10 @@ export async function bindEmail(options) {
 
 /** 修改用户资料 POST /api/user_info */
 
-export async function updateUser() {
+export async function updateUser(params) {
   return request('/api/user_info', {
     method: 'POST',
+    data: params,
   });
 }
 
