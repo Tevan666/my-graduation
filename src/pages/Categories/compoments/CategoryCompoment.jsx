@@ -77,12 +77,14 @@ const columns = [
     width: 120,
     dataIndex: 'url',
     fixed: 'left',
+    search: false,
   },
   {
     title: '图片预览',
     width: 120,
     dataIndex: 'img',
     fixed: 'left',
+    search: false,
   },
   {
     title: '状态',
@@ -94,6 +96,7 @@ const columns = [
     title: '操作',
     width: 120,
     fixed: 'left',
+    search: false,
     render: () => <a>入库</a>,
   },
 ];
