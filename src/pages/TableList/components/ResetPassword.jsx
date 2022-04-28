@@ -5,9 +5,9 @@ import { LockOutlined, BarcodeOutlined } from '@ant-design/icons';
 import { FormattedMessage, useIntl } from 'umi';
 import { getEmailCode, updatePassword } from '@/services/ant-design-pro/login';
 import styles from '../../../pages/user/Login/index.less';
+import { useState } from 'react';
 const ResetPassword = ({ visible, setModalVisit }) => {
   const intl = useIntl();
-
   return (
     <>
       <ModalForm
@@ -29,8 +29,20 @@ const ResetPassword = ({ visible, setModalVisit }) => {
         }}
         onVisibleChange={setModalVisit}
       >
-        <ProFormText width="sm" name="email" label="邮箱" placeholder="请输入邮箱" />
+        <ProFormText
+          rules={[
+            {
+              required: true,
+              message: '请输入邮箱',
+            },
+          ]}
+          width="sm"
+          name="email"
+          label="邮箱"
+          placeholder="请输入邮箱"
+        />
         <ProFormCaptcha
+          label="验证码"
           width="sm"
           fieldProps={{
             size: 'large',
@@ -84,6 +96,7 @@ const ResetPassword = ({ visible, setModalVisit }) => {
           }}
         />
         <ProFormText.Password
+          label="设置新密码"
           width="sm"
           name="password"
           fieldProps={{
@@ -92,7 +105,7 @@ const ResetPassword = ({ visible, setModalVisit }) => {
           }}
           placeholder={intl.formatMessage({
             id: 'pages.login.password.placeholder',
-            defaultMessage: '密码: ant.design',
+            defaultMessage: '请输入新密码',
           })}
           rules={[
             {
@@ -100,7 +113,7 @@ const ResetPassword = ({ visible, setModalVisit }) => {
               message: (
                 <FormattedMessage
                   id="pages.login.password.required"
-                  defaultMessage="请输入密码！"
+                  defaultMessage="请输入新密码！"
                 />
               ),
             },

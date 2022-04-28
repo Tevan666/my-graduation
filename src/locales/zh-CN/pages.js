@@ -6,7 +6,7 @@ export default {
   'pages.login.success': '登录成功！',
   'pages.login.username.placeholder': '输入邮箱号',
   'pages.login.username.required': '邮箱号是必填项！',
-  'pages.login.password.placeholder': '输入邮箱号',
+  'pages.login.password.placeholder': '请输入新密码',
   'pages.login.password.required': '密码是必填项！',
   'pages.login.code.required': '验证码是必填项',
   'pages.login.code.placeholder': '请输入验证码',

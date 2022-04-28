@@ -3,11 +3,12 @@ import { RecoilRoot, atom, selector, useRecoilState, useRecoilValue } from 'reco
 import ProCard from '@ant-design/pro-card';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Button, Select, Space, Affix, Badge } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import TopicMart from './compoment/TopicMart';
 import CartModal from './compoment/CartModal';
 import ShoppingCar from './compoment/ShoppingCar';
+import { getPurchaseRecord, getUploadHistory } from './mart.service';
 
 const { Option } = Select;
 
@@ -44,7 +45,23 @@ const Mart = () => {
   const [tab, setTab] = useState('1');
   const [CartModalVisible, setCartModalVisible] = useState(false);
   const [goodsCount, setGoodsCount] = useState(1);
+  const [animalData, setAnimalData] = useState([]);
+  const [plantData, setPlantData] = useState([]);
 
+  useEffect(() => {
+    getPurchaseRecord().then((res) => {
+      const animalData = res.data.filter((data) => data.goods_id === 'gd001');
+      setAnimalData(animalData);
+      const plantData = res.data.filter((data) => data.goods_id === 'gd002');
+      setPlantData(plantData);
+    });
+    getUploadHistory().then((res) => {
+      const animalData = res.data.filter((data) => data.type === 'animal');
+      const plantData = res.data.filter((data) => data.type === 'plant');
+      console.log(animalData, 'animalData');
+      console.log(plantData, 'plantData');
+    });
+  }, []);
   return (
     <>
       <RecoilRoot>
