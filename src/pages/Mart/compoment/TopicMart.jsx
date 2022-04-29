@@ -7,6 +7,7 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { animalState } from '../index';
 import { useRecoilState } from 'recoil';
+import BarChart from './BarChart';
 const { Statistic } = StatisticCard;
 const handleCancel = () => {
   message.error('呵呵');
@@ -41,7 +42,19 @@ const TopicMart = (params) => {
       moment(item.purchase_time) > moment().subtract(1, 'years').startOf('year')
     );
   }).length;
-
+  const purchaseBarData = purchaseData.map((item) => {
+    return (item.purchase_time = moment(item.purchase_time).format('YYYY-MM'));
+  });
+  let barArr = [];
+  const purchaseBarValue = purchaseBarData.reduce((newArr, item) => {
+    if (item in newArr) {
+      newArr[item]++;
+    } else {
+      newArr[item] = 1;
+    }
+    barArr.push({ time: item, value: newArr[item] });
+    return newArr;
+  }, []);
   const handleConfirm = () => {
     setAnimalInfo({
       ...animalInfo,
@@ -122,15 +135,7 @@ const TopicMart = (params) => {
                 />
               </ProCard>
             </ProCard>
-            <StatisticCard
-              title="数量走势"
-              chart={
-                <img
-                  src="https://gw.alipayobjects.com/zos/alicdn/_dZIob2NB/zhuzhuangtu.svg"
-                  width="100%"
-                />
-              }
-            />
+            {barArr && <StatisticCard title="数量走势" chart={<BarChart data={barArr} />} />}
           </ProCard>
           <StatisticCard
             title="使用时间分布"
