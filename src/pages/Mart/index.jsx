@@ -45,21 +45,15 @@ const Mart = () => {
   const [tab, setTab] = useState('1');
   const [CartModalVisible, setCartModalVisible] = useState(false);
   const [goodsCount, setGoodsCount] = useState(1);
-  const [animalData, setAnimalData] = useState([]);
-  const [plantData, setPlantData] = useState([]);
+  const [purchaseData, setPurchaseData] = useState([]);
+  const [uploadData, setUploadData] = useState([]);
 
   useEffect(() => {
     getPurchaseRecord().then((res) => {
-      const animalData = res.data.filter((data) => data.goods_id === 'gd001');
-      setAnimalData(animalData);
-      const plantData = res.data.filter((data) => data.goods_id === 'gd002');
-      setPlantData(plantData);
+      setPurchaseData(res.data);
     });
     getUploadHistory().then((res) => {
-      const animalData = res.data.filter((data) => data.type === 'animal');
-      const plantData = res.data.filter((data) => data.type === 'plant');
-      console.log(animalData, 'animalData');
-      console.log(plantData, 'plantData');
+      setUploadData(res.data);
     });
   }, []);
   return (
@@ -90,10 +84,10 @@ const Mart = () => {
             }}
           >
             <ProCard.TabPane key="1" tab="动物识别">
-              <TopicMart />
+              <TopicMart purchaseData={purchaseData} uploadData={uploadData} type="animal" />
             </ProCard.TabPane>
             <ProCard.TabPane key="2" tab="植物识别">
-              <TopicMart />
+              <TopicMart purchaseData={purchaseData} uploadData={uploadData} type="plant" />
             </ProCard.TabPane>
           </ProCard>
         </PageContainer>

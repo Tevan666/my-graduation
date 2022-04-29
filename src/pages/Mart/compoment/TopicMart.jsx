@@ -2,12 +2,12 @@ import { useState } from 'react';
 
 import RcResizeObserver from 'rc-resize-observer';
 import ProCard, { StatisticCard } from '@ant-design/pro-card';
-import { Button, Statistic, Popconfirm, message } from 'antd';
+import { Button, Popconfirm, message } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { animalState } from '../index';
 import { useRecoilState } from 'recoil';
-
+const { Statistic } = StatisticCard;
 const handleCancel = () => {
   message.error('呵呵');
 };
@@ -15,11 +15,32 @@ const handleCancel = () => {
 const TopicMart = (params) => {
   const [responsive, setResponsive] = useState(false);
   const [animalInfo, setAnimalInfo] = useRecoilState(animalState);
-
-  const [time, setTime] = useState(moment().format('YYYY-MM-DD, h:mm:ss a'));
-  setInterval(() => {
-    setTime(moment().format('YYYY-MM-DD, h:mm:ss a'));
-  }, 1000);
+  const purchaseData =
+    params.type === 'animal'
+      ? params.purchaseData.filter((data) => data.goods_id === 'gd001')
+      : params.purchaseData.filter((data) => data.goods_id === 'gd002');
+  const uploadData =
+    params.type === 'animal'
+      ? params.uploadData.filter((data) => data.type === 'animal')
+      : params.uploadData.filter((data) => data.type === 'plant');
+  const thisMonthData = purchaseData.filter((item) => {
+    return moment(item.purchase_time) > moment().subtract(1, 'months').startOf('month');
+  }).length;
+  const lastMonthData = purchaseData.filter((item) => {
+    return (
+      moment(item.purchase_time) < moment().startOf('month') &&
+      moment(item.purchase_time) > moment().subtract(2, 'months').endOf('month')
+    );
+  }).length;
+  const thisYearData = purchaseData.filter((item) => {
+    return moment(item.purchase_time) > moment().subtract(1, 'years').startOf('year');
+  }).length;
+  const lastYearData = purchaseData.filter((item) => {
+    return (
+      moment(item.purchase_time) < moment().startOf('year') &&
+      moment(item.purchase_time) > moment().subtract(1, 'years').startOf('year')
+    );
+  }).length;
 
   const handleConfirm = () => {
     setAnimalInfo({
@@ -39,7 +60,7 @@ const TopicMart = (params) => {
       >
         <ProCard
           title="数据概览"
-          extra={`${time}`}
+          extra={`${moment().format('YYYY-MM-DD')}`}
           split={responsive ? 'horizontal' : 'vertical'}
           headerBordered
           bordered
@@ -49,16 +70,29 @@ const TopicMart = (params) => {
               <ProCard split="vertical">
                 <StatisticCard
                   statistic={{
-                    title: '昨日购买量',
-                    value: 234,
-                    description: <Statistic title="较本月平均购买量" value="8.04%" trend="down" />,
+                    title: '今年购买量',
+                    value: thisYearData,
+                    description: (
+                      <Statistic
+                        title="较去年购买量"
+                        value={thisYearData - lastYearData}
+                        trend={thisYearData - lastYearData > 0 ? 'up' : 'down'}
+                        layout="inline"
+                      />
+                    ),
                   }}
                 />
                 <StatisticCard
                   statistic={{
                     title: '本月累计购买量',
-                    value: 234,
-                    description: <Statistic title="月同比" value="8.04%" trend="up" />,
+                    value: thisMonthData,
+                    description: (
+                      <Statistic
+                        title="月同比"
+                        value={thisMonthData - lastMonthData}
+                        trend={thisMonthData - lastMonthData > 0 ? 'up' : 'down'}
+                      />
+                    ),
                   }}
                 />
               </ProCard>
@@ -82,7 +116,7 @@ const TopicMart = (params) => {
                 <StatisticCard
                   statistic={{
                     title: '历史购买总数',
-                    value: '134',
+                    value: purchaseData?.length,
                     suffix: '个',
                   }}
                 />
