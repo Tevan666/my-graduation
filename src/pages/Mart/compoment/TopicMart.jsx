@@ -9,63 +9,64 @@ import { animalState } from '../index';
 import { useRecoilState } from 'recoil';
 import BarChart from './BarChart';
 import PieChart from '@/components/Charts/PieChart';
+import HorizontalBarChart from '@/components/Charts/HorizontalBarChart';
 const { Statistic } = StatisticCard;
 const handleCancel = () => {
   message.error('呵呵');
 };
 
-const dayTime = [
-  {
-    type: '00:00-06:00',
-    value: 1,
-  },
-  {
-    type: '06:00-12:00',
-    value: 1,
-  },
-  {
-    type: '12:00-18:00',
-    value: 1,
-  },
-  {
-    type: '18:00-24:00',
-    value: 1,
-  },
-];
 const TopicMart = (params) => {
   const [responsive, setResponsive] = useState(false);
   const [animalInfo, setAnimalInfo] = useRecoilState(animalState);
+  const dayTime = [
+    {
+      type: '00:00-06:00',
+      value: 1,
+    },
+    {
+      type: '06:00-12:00',
+      value: 1,
+    },
+    {
+      type: '12:00-18:00',
+      value: 1,
+    },
+    {
+      type: '18:00-24:00',
+      value: 1,
+    },
+  ];
   const purchaseData =
     params.type === 'animal'
-      ? params.purchaseData.filter((data) => data.goods_id === 'gd001')
-      : params.purchaseData.filter((data) => data.goods_id === 'gd002');
+      ? params?.purchaseData?.filter((data) => data.goods_id === 'gd001')
+      : params?.purchaseData?.filter((data) => data.goods_id === 'gd002');
   const uploadData =
     params.type === 'animal'
-      ? params.uploadData.filter((data) => data.type === 'animal')
-      : params.uploadData.filter((data) => data.type === 'plant');
-  const thisMonthData = purchaseData.filter((item) => {
+      ? params?.uploadData?.filter((data) => data.type === 'animal')
+      : params?.uploadData?.filter((data) => data.type === 'plant');
+  const thisMonthData = purchaseData?.filter((item) => {
     return moment(item.purchase_time) > moment().subtract(1, 'months').startOf('month');
   }).length;
-  const lastMonthData = purchaseData.filter((item) => {
+  const lastMonthData = purchaseData?.filter((item) => {
     return (
       moment(item.purchase_time) < moment().startOf('month') &&
       moment(item.purchase_time) > moment().subtract(2, 'months').endOf('month')
     );
   }).length;
-  const thisYearData = purchaseData.filter((item) => {
+  const thisYearData = purchaseData?.filter((item) => {
     return moment(item.purchase_time) > moment().subtract(1, 'years').startOf('year');
   }).length;
-  const lastYearData = purchaseData.filter((item) => {
+  const lastYearData = purchaseData?.filter((item) => {
     return (
       moment(item.purchase_time) < moment().startOf('year') &&
       moment(item.purchase_time) > moment().subtract(1, 'years').startOf('year')
     );
   }).length;
-  const purchaseBarData = purchaseData.map((item) => {
+  const purchaseBarData = purchaseData?.map((item) => {
     return (item.purchase_time = moment(item.purchase_time).format('YYYY-MM'));
   });
   let barArr = [];
-  const purchaseBarValue = purchaseBarData.reduce((newArr, item) => {
+  const purchaseBarValue = purchaseBarData?.reduce((newArr, item) => {
     if (item in newArr) {
       newArr[item]++;
     } else {
@@ -74,11 +75,14 @@ const TopicMart = (params) => {
     barArr.push({ time: item, value: newArr[item] });
     return newArr;
   }, []);
-
-  uploadData.forEach((item) => {
-    item.upload_time = moment(item.upload_time).format('HH:mm:SS');
+  const pieTime = uploadData?.map((item) => {
+    const item_obj = {
+      ...item,
+      upload_time: moment(item.upload_time).isValid && moment(item.upload_time).format('HH:mm:SS'),
+    };
+    return item_obj;
   });
-  uploadData.map((item) => {
+  pieTime?.map((item) => {
     if (
       moment(item.upload_time, 'hh:mm:ss').isBetween(
         moment('00:00:00', 'hh:mm:ss'),
@@ -191,7 +195,16 @@ const TopicMart = (params) => {
             </ProCard>
             {barArr && <StatisticCard title="数量走势" chart={<BarChart data={barArr} />} />}
           </ProCard>
-          <StatisticCard title="使用时间分布" chart={<PieChart data={dayTime} />} />
+          <StatisticCard
+            title="使用时间分布"
+            chart={
+              <>
+                <PieChart data={dayTime} />
+                <h2>用户使用次数排名</h2>
+                <HorizontalBarChart data={params?.group} />
+              </>
+            }
+          />
         </ProCard>
       </RcResizeObserver>
     </>

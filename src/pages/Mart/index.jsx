@@ -50,10 +50,10 @@ const Mart = () => {
 
   useEffect(() => {
     getPurchaseRecord().then((res) => {
-      setPurchaseData(res.data);
+      setPurchaseData(res);
     });
     getUploadHistory().then((res) => {
-      setUploadData(res.data);
+      setUploadData(res);
     });
   }, []);
   return (
@@ -84,10 +84,24 @@ const Mart = () => {
             }}
           >
             <ProCard.TabPane key="1" tab="动物识别">
-              <TopicMart purchaseData={purchaseData} uploadData={uploadData} type="animal" />
+              {purchaseData && (
+                <TopicMart
+                  purchaseData={purchaseData.data}
+                  uploadData={uploadData.data}
+                  group={uploadData.group}
+                  type="animal"
+                />
+              )}
             </ProCard.TabPane>
             <ProCard.TabPane key="2" tab="植物识别">
-              <TopicMart purchaseData={purchaseData} uploadData={uploadData} type="plant" />
+              {purchaseData && (
+                <TopicMart
+                  purchaseData={purchaseData.data}
+                  uploadData={uploadData.data}
+                  group={uploadData.group}
+                  type="plant"
+                />
+              )}
             </ProCard.TabPane>
           </ProCard>
         </PageContainer>

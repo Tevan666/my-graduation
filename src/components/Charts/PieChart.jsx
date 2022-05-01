@@ -1,6 +1,5 @@
 import { Pie } from '@ant-design/plots';
 const PieChart = ({ data }) => {
-  console.log(data, 'data');
   const config = {
     appendPadding: 10,
     data,
