@@ -73,8 +73,9 @@ const TopicMart = (params) => {
       newArr[item] = 1;
     }
     barArr.push({ time: item, value: newArr[item] });
+
     return newArr;
-  }, []);
+  }, {});
   const pieTime = uploadData?.map((item) => {
     const item_obj = {
       ...item,

@@ -1,8 +1,6 @@
-import { Spin } from 'antd';
-import { Line } from '@ant-design/plots';
-import moment from 'moment';
+import { Scatter } from '@ant-design/plots';
 
-const BarChart = ({ data }) => {
+const ScatterChart = ({ data }) => {
   const total = [
     { time: '2021-01', value: 0 },
     { time: '2021-02', value: 0 },
@@ -38,17 +36,25 @@ const BarChart = ({ data }) => {
   });
   const config = {
     data: total,
+    height: 200,
     xField: 'time',
     yField: 'value',
-    padding: 'auto',
-    height: 200,
-    xAxis: {
-      // type: 'timeCat',
-      tickCount: 5,
+    size: 5,
+    pointStyle: {
+      stroke: '#777777',
+      lineWidth: 1,
+      fill: '#5B8FF9',
     },
-    smooth: true,
+    regressionLine: {
+      type: 'quad', // linear, exp, loess, log, poly, pow, quad
+    },
   };
-  return <>{data.length ? <Line {...config} /> : <Spin />}</>;
+
+  return (
+    <>
+      <Scatter {...config} />
+    </>
+  );
 };
 
-export default BarChart;
+export default ScatterChart;

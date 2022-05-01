@@ -1,12 +1,32 @@
 import { useEffect, useState } from 'react';
 import { StatisticCard } from '@ant-design/pro-card';
 import RcResizeObserver from 'rc-resize-observer';
-
+import moment from 'moment';
 import ProCard from '@ant-design/pro-card';
 import { Button } from 'antd';
 import { BarChartOutlined, DotChartOutlined, AreaChartOutlined } from '@ant-design/icons';
 import { getUserUploadRecord } from '../user.service';
+import BarChart from '@/pages/Mart/compoment/BarChart';
+import ScatterChart from './component/scatterChart';
 const { Divider } = StatisticCard;
+
+const getTimeList = (data) => {
+  const purchaseBarData = data?.map((item) => {
+    return (item.upload_time = moment(item.upload_time).format('YYYY-MM'));
+  });
+  let barArr = [];
+  const purchaseBarValue = purchaseBarData?.reduce((newArr, item) => {
+    if (item in newArr) {
+      newArr[item]++;
+    } else {
+      newArr[item] = 1;
+    }
+    barArr.push({ time: item, value: newArr[item] });
+
+    return newArr;
+  }, {});
+  return barArr;
+};
 
 const ManageView = () => {
   const [responsive, setResponsive] = useState(false);
@@ -22,6 +42,9 @@ const ManageView = () => {
       setPlantRecord(record);
     }
   };
+  const animalTime = animalRecord && getTimeList(animalRecord.data);
+  const plantTime = plantRecord && getTimeList(plantRecord.data);
+  console.log(animalTime, 'animalTime');
   useEffect(() => {
     getUploadRecord('animal');
     getUploadRecord('plant');
@@ -44,13 +67,7 @@ const ManageView = () => {
                   value: animalRecord?.total,
                   suffix: '次',
                 }}
-                chart={
-                  <img
-                    src="https://gw.alipayobjects.com/zos/alicdn/RLeBTRNWv/bianzu%25252043x.png"
-                    alt="直方图"
-                    width="100%"
-                  />
-                }
+                chart={animalTime && <BarChart data={animalTime} />}
               />
               <Divider type={responsive ? 'horizontal' : 'vertical'} />
               <StatisticCard
@@ -60,13 +77,7 @@ const ManageView = () => {
                   value: plantRecord?.total,
                   suffix: '次',
                 }}
-                chart={
-                  <img
-                    src="https://gw.alipayobjects.com/zos/alicdn/RLeBTRNWv/bianzu%25252043x.png"
-                    alt="直方图"
-                    width="100%"
-                  />
-                }
+                chart={plantTime && <ScatterChart data={plantTime} />}
               />
               <Divider type={responsive ? 'horizontal' : 'vertical'} />
               <StatisticCard
