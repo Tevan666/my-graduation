@@ -8,11 +8,30 @@ import moment from 'moment';
 import { animalState } from '../index';
 import { useRecoilState } from 'recoil';
 import BarChart from './BarChart';
+import PieChart from '@/components/Charts/PieChart';
 const { Statistic } = StatisticCard;
 const handleCancel = () => {
   message.error('呵呵');
 };
 
+const dayTime = [
+  {
+    type: '00:00-06:00',
+    value: 1,
+  },
+  {
+    type: '06:00-12:00',
+    value: 1,
+  },
+  {
+    type: '12:00-18:00',
+    value: 1,
+  },
+  {
+    type: '18:00-24:00',
+    value: 1,
+  },
+];
 const TopicMart = (params) => {
   const [responsive, setResponsive] = useState(false);
   const [animalInfo, setAnimalInfo] = useRecoilState(animalState);
@@ -55,6 +74,41 @@ const TopicMart = (params) => {
     barArr.push({ time: item, value: newArr[item] });
     return newArr;
   }, []);
+
+  uploadData.forEach((item) => {
+    item.upload_time = moment(item.upload_time).format('HH:mm:SS');
+  });
+  uploadData.map((item) => {
+    if (
+      moment(item.upload_time, 'hh:mm:ss').isBetween(
+        moment('00:00:00', 'hh:mm:ss'),
+        moment('06:00:00', 'hh:mm:ss'),
+      )
+    ) {
+      dayTime[0].value++;
+    } else if (
+      moment(item.upload_time, 'hh:mm:ss').isBetween(
+        moment('06:00:00', 'hh:mm:ss'),
+        moment('12:00:00', 'hh:mm:ss'),
+      )
+    ) {
+      dayTime[1].value++;
+    } else if (
+      moment(item.upload_time, 'hh:mm:ss').isBetween(
+        moment('12:00:00', 'hh:mm:ss'),
+        moment('18:00:00', 'hh:mm:ss'),
+      )
+    ) {
+      dayTime[2].value++;
+    } else if (
+      moment(item.upload_time, 'hh:mm:ss').isBetween(
+        moment('18:00:00', 'hh:mm:ss'),
+        moment('24:00:00', 'hh:mm:ss'),
+      )
+    ) {
+      dayTime[3].value++;
+    }
+  });
   const handleConfirm = () => {
     setAnimalInfo({
       ...animalInfo,
@@ -137,16 +191,7 @@ const TopicMart = (params) => {
             </ProCard>
             {barArr && <StatisticCard title="数量走势" chart={<BarChart data={barArr} />} />}
           </ProCard>
-          <StatisticCard
-            title="使用时间分布"
-            chart={
-              <img
-                src="https://gw.alipayobjects.com/zos/alicdn/qoYmFMxWY/jieping2021-03-29%252520xiawu4.32.34.png"
-                alt="大盘"
-                width="100%"
-              />
-            }
-          />
+          <StatisticCard title="使用时间分布" chart={<PieChart data={dayTime} />} />
         </ProCard>
       </RcResizeObserver>
     </>

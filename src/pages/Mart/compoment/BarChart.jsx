@@ -1,5 +1,6 @@
 import { Spin } from 'antd';
 import { Line } from '@ant-design/plots';
+import moment from 'moment';
 
 const BarChart = ({ data }) => {
   const total = [
@@ -15,13 +16,28 @@ const BarChart = ({ data }) => {
     { time: '2021-10', value: 0 },
     { time: '2021-11', value: 0 },
     { time: '2021-12', value: 0 },
+    { time: '2022-01', value: 0 },
+    { time: '2022-02', value: 0 },
+    { time: '2022-03', value: 0 },
+    { time: '2022-04', value: 0 },
+    { time: '2022-05', value: 0 },
+    { time: '2022-06', value: 0 },
+    { time: '2022-07', value: 0 },
+    { time: '2022-08', value: 0 },
+    { time: '2022-09', value: 0 },
+    { time: '2022-10', value: 0 },
+    { time: '2022-11', value: 0 },
+    { time: '2022-12', value: 0 },
   ];
-  console.log(totaldata, 'total');
-
-  const totaldata = total.concat(data).sort();
-  console.log(totaldata, 'next');
+  data.map((dataItem) => {
+    total.forEach((item) => {
+      if (item.time === dataItem.time) {
+        item.value = dataItem.value;
+      }
+    });
+  });
   const config = {
-    data: totaldata,
+    data: total,
     xField: 'time',
     yField: 'value',
     padding: 'auto',
