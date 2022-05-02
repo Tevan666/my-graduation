@@ -1,11 +1,10 @@
 import {
-  AlipayCircleOutlined,
+  GithubOutlined,
   LockOutlined,
   MobileOutlined,
-  TaobaoCircleOutlined,
   UserOutlined,
-  WeiboCircleOutlined,
   BarcodeOutlined,
+  ClusterOutlined,
 } from '@ant-design/icons';
 import { Alert, message, Tabs } from 'antd';
 import React, { Fragment, useState } from 'react';
@@ -22,6 +21,7 @@ import { Image } from 'antd';
 import { getImgSrc } from './login.service';
 import { useEffect } from 'react';
 import ResetPassword from '@/pages/TableList/components/ResetPassword';
+import RegisterModal from '@/pages/TableList/components/regitserModal';
 const LoginMessage = ({ content }) => (
   <Alert
     style={{
@@ -39,6 +39,8 @@ const Login = () => {
   const [type, setType] = useState('mobile');
   const { initialState, setInitialState } = useModel('@@initialState');
   const [updateModalVisible, setUpdateModalVisible] = useState(false);
+  const [regitserModalVisible, setRegitserModalVisible] = useState(false);
+
   const intl = useIntl();
   useEffect(() => {
     getSrc();
@@ -95,8 +97,8 @@ const Login = () => {
             {SelectLang && <SelectLang />}
           </div>
           <LoginForm
-            logo={<img alt="logo" src="/logo.svg" />}
-            title="基于react和flask搭建的物体分类可视化平台"
+            logo={<ClusterOutlined className="text-2xl" />}
+            title="物体分类可视化平台"
             subTitle={intl.formatMessage({
               id: 'pages.layouts.userLayout.title',
             })}
@@ -109,9 +111,7 @@ const Login = () => {
                 id="pages.login.loginWith"
                 defaultMessage="其他登录方式"
               />,
-              <AlipayCircleOutlined key="AlipayCircleOutlined" className={styles.icon} />,
-              <TaobaoCircleOutlined key="TaobaoCircleOutlined" className={styles.icon} />,
-              <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.icon} />,
+              <GithubOutlined key="GithubOutlined" className={styles.icon} />,
             ]}
             onFinish={async (values) => {
               await handleSubmit(values);
@@ -307,9 +307,9 @@ const Login = () => {
                 marginBottom: 24,
               }}
             >
-              <ProFormCheckbox noStyle name="autoLogin">
-                <FormattedMessage id="pages.login.rememberMe" defaultMessage="自动登录" />
-              </ProFormCheckbox>
+              <a onClick={setRegitserModalVisible}>
+                <FormattedMessage id="pages.login.register" defaultMessage="注册新账号" />
+              </a>
               <a
                 style={{
                   float: 'right',
@@ -321,6 +321,8 @@ const Login = () => {
             </div>
             <Footer />
           </LoginForm>
+          <RegisterModal visible={regitserModalVisible} setModalVisit={setRegitserModalVisible} />
+
           <ResetPassword visible={updateModalVisible} setModalVisit={setUpdateModalVisible} />
         </div>
       </div>
