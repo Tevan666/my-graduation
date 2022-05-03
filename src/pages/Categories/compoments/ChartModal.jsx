@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button } from 'antd';
 import Page from '../../../components/Charts/line';
 import GaugeChart from '../../../components/Charts/GaugeChart';
+import ColumnChart from '@/components/Charts/columnChart';
 const ChartModal = (props) => {
   console.log(props, 'props');
   const titleMap = new Map([
@@ -19,6 +20,7 @@ const ChartModal = (props) => {
     >
       {props.type === 1 && <Page lineData={props.lineData} />}
       {props.type === 2 && <GaugeChart lineData={props.lineData} />}
+      {props.type === 3 && <ColumnChart data={props.lineData} type="function" />}
     </Modal>
   );
 };

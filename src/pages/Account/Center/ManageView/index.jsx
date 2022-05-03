@@ -8,7 +8,46 @@ import { BarChartOutlined, DotChartOutlined, AreaChartOutlined } from '@ant-desi
 import { getUserUploadRecord } from '../user.service';
 import BarChart from '@/pages/Mart/compoment/BarChart';
 import ScatterChart from './component/scatterChart';
+import ColumnChart from '@/components/Charts/columnChart';
+
 const { Divider } = StatisticCard;
+
+const formatData = (data) => {
+  const total = [
+    { type: '2021-01', value: 0 },
+    { type: '2021-02', value: 0 },
+    { type: '2021-03', value: 0 },
+    { type: '2021-04', value: 0 },
+    { type: '2021-05', value: 0 },
+    { type: '2021-06', value: 0 },
+    { type: '2021-07', value: 0 },
+    { type: '2021-08', value: 0 },
+    { type: '2021-09', value: 0 },
+    { type: '2021-10', value: 0 },
+    { type: '2021-11', value: 0 },
+    { type: '2021-12', value: 0 },
+    { type: '2022-01', value: 0 },
+    { type: '2022-02', value: 0 },
+    { type: '2022-03', value: 0 },
+    { type: '2022-04', value: 0 },
+    { type: '2022-05', value: 0 },
+    { type: '2022-06', value: 0 },
+    { type: '2022-07', value: 0 },
+    { type: '2022-08', value: 0 },
+    { type: '2022-09', value: 0 },
+    { type: '2022-10', value: 0 },
+    { type: '2022-11', value: 0 },
+    { type: '2022-12', value: 0 },
+  ];
+  data.map((dataItem) => {
+    total.forEach((item) => {
+      if (item.type === dataItem.type) {
+        item.value = dataItem.value;
+      }
+    });
+  });
+  return total;
+};
 
 const getTimeList = (data) => {
   const purchaseBarData = data?.map((item) => {
@@ -32,7 +71,17 @@ const ManageView = () => {
   const [responsive, setResponsive] = useState(false);
   const [animalRecord, setAnimalRecord] = useState();
   const [plantRecord, setPlantRecord] = useState();
+  const itemsData = [
+    { type: '2021-04', value: 1 },
+    { type: '2021-05', value: 4 },
 
+    { type: '2021-08', value: 1 },
+
+    { type: '2021-10', value: 2 },
+
+    { type: '2022-01', value: 1 },
+    { type: '2022-02', value: 3 },
+  ];
   const getUploadRecord = async (type) => {
     if (type === 'animal') {
       const record = await getUserUploadRecord({ type: type });
@@ -87,13 +136,7 @@ const ManageView = () => {
                   value: 5,
                   suffix: '次',
                 }}
-                chart={
-                  <img
-                    src="https://gw.alipayobjects.com/zos/alicdn/RLeBTRNWv/bianzu%25252043x.png"
-                    alt="直方图"
-                    width="100%"
-                  />
-                }
+                chart={<ColumnChart data={formatData(itemsData)} type="center" />}
               />
             </StatisticCard.Group>
           </RcResizeObserver>

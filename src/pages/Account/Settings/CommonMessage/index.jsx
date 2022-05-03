@@ -154,6 +154,7 @@ const CommonMessage = () => {
             name="username"
             tooltip="最长为 10 位"
             placeholder="请输入名称"
+            initialValue={currentUser?.name}
           />
         </ProForm.Group>
         <ProForm.Group label="地区">
@@ -170,6 +171,7 @@ const CommonMessage = () => {
             rules={[{ required: true, message: '请输入自我介绍' }]}
             width="md"
             name="description"
+            initialValue={currentUser?.description}
           />
         </ProForm.Group>
       </ModalForm>
