@@ -37,7 +37,7 @@ const MapChart = () => {
       field: 'value',
       value: ['#B8E1FF', '#7DAAFF', '#3D76DD', '#0047A5', '#001D70'],
       scale: {
-        type: 'quantize',
+        type: 'linear',
       },
     },
     style: {
@@ -77,9 +77,10 @@ const MapChart = () => {
   };
   return (
     <StatisticCard
+      title="全国各省使用人数"
       style={{ height: '600px' }}
       chart={
-        <div style={{ height: 300 }}>
+        <div style={{ height: 530 }}>
           <ChoroplethMap {...config} />
         </div>
       }

@@ -27,11 +27,10 @@ export default {
   'pages.login.submit': '登录',
   'pages.login.loginWith': '其他登录方式 :',
   'pages.login.registerAccount': '注册账户',
-  'pages.welcome.advancedComponent': '高级表格',
+  'pages.welcome.advancedComponent': '高级功能',
   'pages.welcome.link': '欢迎使用',
   'pages.welcome.advancedLayout': '高级布局',
-  'pages.welcome.alertMessage':
-    '当前可识别：鸟、蝴蝶、书、牛、鸡、大象、马、手机、羊、鞋、蜘蛛、松鼠、手表',
+  'pages.welcome.alertMessage': '目前支持：动物分类、植物分类、物体分类、目标追踪等等特色功能',
   'pages.welcome.animal': '识别近八千种动物',
   'pages.welcome.plant': '识别近八千种植物',
   'pages.welcome.matter': '识别近八千种动物',

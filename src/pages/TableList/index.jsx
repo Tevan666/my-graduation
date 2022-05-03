@@ -235,9 +235,10 @@ const TableList = () => {
   ];
   return (
     <PageContainer>
-      <MapChart style={{ height: 900 }} />
+      <MapChart />
 
       <ProTable
+        className="mt-5"
         headerTitle={intl.formatMessage({
           id: 'pages.searchTable.title',
           defaultMessage: 'Enquiry form',
@@ -247,17 +248,17 @@ const TableList = () => {
         search={{
           labelWidth: 120,
         }}
-        toolBarRender={() => [
-          <Button
-            type="primary"
-            key="primary"
-            onClick={() => {
-              handleModalVisible(true);
-            }}
-          >
-            <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
-          </Button>,
-        ]}
+        // toolBarRender={() => [
+        //   <Button
+        //     type="primary"
+        //     key="primary"
+        //     onClick={() => {
+        //       handleModalVisible(true);
+        //     }}
+        //   >
+        //     <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
+        //   </Button>,
+        // ]}
         request={rule}
         columns={columns}
         rowSelection={{

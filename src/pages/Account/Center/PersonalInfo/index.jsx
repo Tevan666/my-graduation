@@ -2,10 +2,15 @@ import { useModel } from 'umi';
 import { MoneyCollectOutlined } from '@ant-design/icons';
 import ProCard from '@ant-design/pro-card';
 import ProDescriptions from '@ant-design/pro-descriptions';
-
+import { useState } from 'react';
+import { ProFormMoney, ModalForm } from '@ant-design/pro-form';
+import { message } from 'antd';
+import { handlereCharge } from '../user.service';
 const PersonalInfo = () => {
+  const [rechargeModalVisible, setRechargeModalVisible] = useState(false);
   const {
     initialState: { currentUser },
+    refresh,
   } = useModel('@@initialState');
   console.log(currentUser, 'currentUser');
   return (
@@ -75,13 +80,39 @@ const PersonalInfo = () => {
           bordered
           title="账号信息"
           style={{ marginTop: 20 }}
-          actions={[<MoneyCollectOutlined title="充值" key="momey" />]}
+          actions={[
+            <MoneyCollectOutlined title="充值" key="momey" onClick={setRechargeModalVisible} />,
+          ]}
         >
           <div>
             现金余额: <h2>￥{currentUser?.balances}</h2>
           </div>
         </ProCard>
       </ProCard>
+      <ModalForm
+        title="充值中心"
+        visible={rechargeModalVisible}
+        onFinish={async ({ amount }) => {
+          await handlereCharge({ amount: amount }).then((res) => {
+            if (res.code === 0) {
+              message.success(res.message);
+              refresh();
+            } else {
+              message.error(res.message);
+            }
+          });
+          return true;
+        }}
+        onVisibleChange={setRechargeModalVisible}
+      >
+        <ProFormMoney
+          customSymbol="💰"
+          label="最少充值1元"
+          name="amount"
+          initialValue={22.22}
+          min={1}
+        />
+      </ModalForm>
     </>
   );
 };

@@ -6,3 +6,10 @@ export async function getUserUploadRecord(params) {
     params,
   });
 }
+
+export async function handlereCharge(params) {
+  return request(`/api/recharge`, {
+    method: 'PUT',
+    params,
+  });
+}

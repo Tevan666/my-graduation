@@ -31,7 +31,7 @@ const Welcome = () => {
         <Alert
           message={intl.formatMessage({
             id: 'pages.welcome.alertMessage',
-            defaultMessage: 'Faster and stronger heavy-duty components have been released.',
+            defaultMessage: '目前支持：动物分类、植物分类、物体分类、目标追踪等等特色功能',
           })}
           type="success"
           showIcon

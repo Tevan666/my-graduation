@@ -32,7 +32,7 @@ const props = {
 };
 
 const CommonMessage = () => {
-  const { initialState } = useModel('@@initialState');
+  const { initialState, refresh } = useModel('@@initialState');
   const { currentUser } = initialState;
   const [editModal, setEditModal] = useState(false);
 
@@ -43,6 +43,7 @@ const CommonMessage = () => {
       if (res.code === 0) {
         message.success(res.message);
         setEditModal(false);
+        refresh();
       } else {
         message.error(res.message);
       }
