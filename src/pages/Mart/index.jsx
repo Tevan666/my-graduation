@@ -103,6 +103,16 @@ const Mart = () => {
                 />
               )}
             </ProCard.TabPane>
+            <ProCard.TabPane key="3" tab="物体分类">
+              {purchaseData && (
+                <TopicMart
+                  purchaseData={purchaseData.data}
+                  uploadData={uploadData.data}
+                  group={uploadData.group}
+                  type="plant"
+                />
+              )}
+            </ProCard.TabPane>
           </ProCard>
         </PageContainer>
         <CartModal visible={CartModalVisible} setVisible={setCartModalVisible} />

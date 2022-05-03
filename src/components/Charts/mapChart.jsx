@@ -77,7 +77,7 @@ const MapChart = () => {
   };
   return (
     <StatisticCard
-      title="全国各省使用人数"
+      title="全国各省使用次数"
       style={{ height: '600px' }}
       chart={
         <div style={{ height: 530 }}>

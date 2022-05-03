@@ -35,6 +35,7 @@ import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/ico
 import ProTable from '@ant-design/pro-table';
 import CarouselComponent from '@/components/Carousel';
 import ChartModal from '../compoments/chartModal';
+import { rule } from '@/services/ant-design-pro/api';
 const { Meta } = Card;
 
 const { Step } = Steps;
@@ -75,59 +76,23 @@ const columns = [
   {
     title: '百科地址',
     width: 120,
-    dataIndex: 'url',
+    dataIndex: 'baike_url',
     fixed: 'left',
     search: false,
   },
   {
     title: '图片预览',
     width: 120,
-    dataIndex: 'img',
+    dataIndex: 'img_url',
     fixed: 'left',
     search: false,
   },
   {
-    title: '状态',
+    title: '描述',
     width: 120,
-    dataIndex: 'status',
-    fixed: 'left',
-  },
-  {
-    title: '操作',
-    width: 120,
+    dataIndex: 'description',
     fixed: 'left',
     search: false,
-    render: () => <a>入库</a>,
-  },
-];
-let historyList = [
-  {
-    name: '龙',
-    key: 1,
-    url: 'www.baidu.com',
-    img: 'www.baidu.com',
-    status: '已入库',
-  },
-  {
-    name: '鸟',
-    key: 2,
-    url: 'www.baidu.com',
-    img: 'www.baidu.com',
-    status: '已入库',
-  },
-  {
-    name: '蛇',
-    key: 3,
-    url: 'www.baidu.com',
-    img: 'www.baidu.com',
-    status: '未入库',
-  },
-  {
-    name: '鱼',
-    key: 4,
-    url: 'www.baidu.com',
-    img: 'www.baidu.com',
-    status: '已入库',
   },
 ];
 
@@ -344,15 +309,33 @@ const CategoryCompoment = (props) => {
         <ProTable
           columns={columns}
           options={false}
-          rowSelection={{
-            // 自定义选择项参考: https://ant.design/components/table-cn/#components-table-demo-row-selection-custom
-            // 注释该行则默认不显示下拉选项
-            selections: [Table.SELECTION_ALL, Table.SELECTION_INVERT],
-            defaultSelectedRowKeys: [1],
-          }}
+          // rowSelection={{
+          //   // 自定义选择项参考: https://ant.design/components/table-cn/#components-table-demo-row-selection-custom
+          //   // 注释该行则默认不显示下拉选项
+          //   selections: [Table.SELECTION_ALL, Table.SELECTION_INVERT],
+          //   defaultSelectedRowKeys: [1],
+          // }}
           rowKey="key"
-          toolBarRender={() => [<Button key="show">记录入库</Button>]}
-          dataSource={historyList}
+          // toolBarRender={() => [<Button key="show">记录入库</Button>]}
+          request={async (
+            // 第一个参数 params 查询表单和 params 参数的结合
+            // 第一个参数中一定会有 pageSize 和  current ，这两个参数是 antd 的规范
+            params,
+            sort,
+            filter,
+          ) => {
+            // 这里需要返回一个 Promise,在返回之前你可以进行数据转化
+            // 如果需要转化参数可以在这里进行修改
+            const msg = await rule({ ...params, type: props.type });
+            return {
+              data: msg.data,
+              // success 请返回 true，
+              // 不然 table 会停止解析数据，即使有数据
+              success: true,
+              // 不传会使用 data 的长度，如果是分页一定要传
+              total: 10,
+            };
+          }}
         />
       </Card>
     </>
