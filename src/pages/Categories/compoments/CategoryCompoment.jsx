@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useState } from 'react';
 import {
   HeartTwoTone,
   SmileTwoTone,
@@ -13,29 +13,23 @@ import {
   Col,
   Avatar,
   Steps,
-  Upload,
   Modal,
   Collapse,
   Tag,
   Button,
-  Table,
   Comment,
-  Tooltip,
+  message,
 } from 'antd';
-import { useIntl } from 'umi';
+import { useIntl, useModel } from 'umi';
 
-import { PlusOutlined, GlobalOutlined } from '@ant-design/icons';
-import ProForm from '@ant-design/pro-form';
-import Page from '../../../components/Charts/line';
-
-import { getResults } from '../category.service';
-import GaugeChart from '../../../components/Charts/GaugeChart';
-
+import { GlobalOutlined } from '@ant-design/icons';
+import ProForm, { ProFormUploadButton } from '@ant-design/pro-form';
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import ProTable from '@ant-design/pro-table';
 import CarouselComponent from '@/components/Carousel';
 import ChartModal from '../compoments/chartModal';
 import { rule } from '@/services/ant-design-pro/api';
+import { getResults, uploadHistory } from '../category.service';
 const { Meta } = Card;
 
 const { Step } = Steps;
@@ -99,11 +93,12 @@ const columns = [
 const CategoryCompoment = (props) => {
   const [lineData, setLineData] = useState('');
   const intl = useIntl();
-  const [image, setImage] = useState('');
   const [step, setStep] = useState(0);
   const [status, setStatus] = useState('wait');
   const [chartsModal, setChartsModal] = useState(false);
   const [chartType, setChartType] = useState();
+  const { initialState } = useModel('@@initialState');
+  const { currentUser } = initialState || {};
   const categoryTitle = new Map([
     ['animal', '动物'],
     ['plant', '植物'],
@@ -144,12 +139,6 @@ const CategoryCompoment = (props) => {
     setState({ fileList });
   };
   const { previewVisible, previewImage, fileList, previewTitle } = state;
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </div>
-  );
 
   const handleCheckModal = (key) => {
     setChartType(key);
@@ -161,13 +150,14 @@ const CategoryCompoment = (props) => {
   const handleModalOk = () => {
     setChartsModal(false);
   };
-  const getResult = async () => {
+  const getResult = async (values) => {
+    console.log(values.filelist, 'values');
     setStatus('process');
-    if (fileList.length && fileList[0].thumbUrl) {
-      const imgURL = fileList[0].thumbUrl;
+    if (values.filelist.length && values.filelist[0].thumbUrl) {
+      const imgURL = values.filelist[0].thumbUrl;
       const reg = /.+(base64,)/;
       //需要对url进行解码
-      setImage(encodeURIComponent(imgURL.replace(reg, '')));
+      const image = encodeURIComponent(imgURL.replace(reg, ''));
       if (image) {
         const res = await getResults(image, 1, props.type);
         setLineData(res.result);
@@ -177,6 +167,28 @@ const CategoryCompoment = (props) => {
         setStatus('error');
       }
     }
+  };
+  const handleUpload = async () => {
+    console.log(lineData, 'data');
+    const baike_info = lineData[0]?.baike_info;
+    const uploadParam = {
+      name: lineData[0]?.name,
+      img_url: baike_info.image_url,
+      baike_url: baike_info.baike_url,
+      description: baike_info.description,
+      square: currentUser.square,
+      type: props.type,
+      status: '已入库',
+    };
+    await uploadHistory(uploadParam).then((res) => {
+      if (res.code === 0) {
+        message.success(res.message);
+        setState('');
+        setLineData('');
+      } else {
+        message.error(res.message);
+      }
+    });
   };
   return (
     <>
@@ -241,16 +253,31 @@ const CategoryCompoment = (props) => {
         </Steps>
         <Row gutter={[16, 16]} justify="space-around">
           <Col span={10}>
-            <ProForm onFinish={getResult}>
-              <Upload
+            <ProForm
+              submitter={{
+                searchConfig: {
+                  submitText: '提交',
+                  resetText: '上传历史记录',
+                },
+                resetButtonProps: {
+                  style: {
+                    // 隐藏重置按钮
+                    display: status === 'finish' ? '' : 'none',
+                  },
+                },
+              }}
+              onFinish={getResult}
+              onReset={handleUpload}
+            >
+              <ProFormUploadButton
+                name="filelist"
                 action="v2/5cc8019d300000980a055e76"
                 listType="picture-card"
+                max={1}
                 fileList={fileList}
                 onPreview={handlePreview}
                 onChange={handleChange}
-              >
-                {fileList.length >= 1 ? null : uploadButton}
-              </Upload>
+              />
             </ProForm>
             {lineData ? (
               <Collapse ghost defaultActiveKey={['1']}>

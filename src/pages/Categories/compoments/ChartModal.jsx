@@ -4,13 +4,11 @@ import Page from '../../../components/Charts/line';
 import GaugeChart from '../../../components/Charts/GaugeChart';
 import ColumnChart from '@/components/Charts/columnChart';
 const ChartModal = (props) => {
-  console.log(props, 'props');
   const titleMap = new Map([
     [1, '折线图'],
     [2, '仪表盘'],
     [3, '柱状图'],
   ]);
-  console.log(titleMap.get(props.type), 'title');
   return (
     <Modal
       visible={props.visible}
