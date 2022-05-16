@@ -8,7 +8,6 @@ const ColumnChart = ({ data, type }) => {
       item.score = parseFloat(((item.score * 100) / 100).toFixed(4));
     });
   }
-  console.log(data, 'data');
   const config = {
     height: 200,
     data,

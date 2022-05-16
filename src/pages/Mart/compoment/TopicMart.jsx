@@ -120,7 +120,6 @@ const TopicMart = (params) => {
       amount: 1,
     });
     message.success('不给');
-    console.log(animalInfo, 'info222');
   };
   return (
     <>

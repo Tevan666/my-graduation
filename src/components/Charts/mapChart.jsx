@@ -12,7 +12,6 @@ const MapChart = () => {
   useEffect(() => {
     getPeopleNum();
   }, []);
-  console.log(province_num, 'province_num');
   const config = {
     map: {
       type: 'mapbox',

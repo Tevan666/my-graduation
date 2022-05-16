@@ -69,8 +69,6 @@ export async function rule(params, options) {
 /** 删除上传历史 DELETE /api/upload */
 
 export async function deleteHistory(id) {
-  console.log('id', id);
-
   return request('/api/upload', {
     method: 'DELETE',
     params: id,

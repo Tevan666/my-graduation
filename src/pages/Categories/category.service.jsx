@@ -15,7 +15,6 @@ export async function getResults(image, num, classify) {
 /** 上传历史记录 POST /api/upload */
 
 export async function uploadHistory(props) {
-  console.log('params', props);
   return request('/api/upload', {
     method: 'POST',
     params: props,

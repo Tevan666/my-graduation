@@ -16,7 +16,6 @@ const ResetPassword = ({ visible, setModalVisit }) => {
         title="修改密码"
         visible={visible}
         onFinish={async (values) => {
-          console.log(values, 'values');
           await updatePassword(values).then((res) => {
             if (res.code === 0) {
               message.success(res.message);

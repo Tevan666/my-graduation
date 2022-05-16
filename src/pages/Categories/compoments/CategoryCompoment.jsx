@@ -75,7 +75,6 @@ const columns = [
     fixed: 'left',
     search: false,
     render: (text) => {
-      console.log(text, 'text');
       return (
         <Tooltip title={text}>
           <span className="truncate">{text.substring(0, 10)}...</span>
@@ -90,7 +89,6 @@ const columns = [
     fixed: 'left',
     search: false,
     render: (text) => {
-      console.log(text, 'text');
       return (
         <Tooltip title={text}>
           <span className="truncate">{text.substring(0, 10)}...</span>
@@ -105,7 +103,6 @@ const columns = [
     fixed: 'left',
     search: false,
     render: (text) => {
-      console.log(text, 'text');
       return (
         <Tooltip title={text + '...'}>
           <span className="truncate">{text.substring(0, 20)}...</span>
@@ -150,7 +147,6 @@ const CategoryCompoment = (props) => {
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
-      console.log(file.preview, 'file');
     }
 
     setState({
@@ -177,7 +173,6 @@ const CategoryCompoment = (props) => {
     setChartsModal(false);
   };
   const getResult = async (values) => {
-    console.log(values.filelist, 'values');
     setStatus('process');
     if (values.filelist.length && values.filelist[0].thumbUrl) {
       const imgURL = values.filelist[0].thumbUrl;
@@ -195,7 +190,6 @@ const CategoryCompoment = (props) => {
     }
   };
   const handleUpload = async () => {
-    console.log(lineData, 'data');
     const baike_info = lineData[0]?.baike_info;
     const uploadParam = {
       name: lineData[0]?.name,

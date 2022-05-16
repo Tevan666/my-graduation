@@ -30,11 +30,9 @@ const CartModal = ({ visible, setVisible }) => {
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      console.log('selectedRowKeys changed: ', selectedRows);
       setCurrentRow({ selectedRowKeys });
       modalForm.setFieldsValue({ goods: selectedRows });
       const values = modalForm.getFieldValue('goods');
-      console.log(values, 'values');
     },
     getCheckboxProps: (record) => ({
       disabled: record.amount === 0,
@@ -50,7 +48,6 @@ const CartModal = ({ visible, setVisible }) => {
         visible={visible}
         onFinish={async (values) => {
           message.success('success');
-          console.log(values, 'valuees');
           modalForm.resetFields();
           return true;
         }}

@@ -30,7 +30,6 @@ const AvatarDropdown = ({ menu }) => {
   const onMenuClick = useCallback(
     (event) => {
       const { key } = event;
-      console.log(key, 'key');
       if (key === 'logout') {
         setInitialState((s) => ({ ...s, currentUser: undefined }));
         loginOut();

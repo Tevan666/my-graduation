@@ -7,7 +7,6 @@ export async function getImgSrc() {
   }).then((res) => {
     let blob = new Blob([res], { type: 'img/jpeg' });
     let url = window.URL.createObjectURL(blob);
-    console.log(blob, 'url111');
     return url;
   });
 }

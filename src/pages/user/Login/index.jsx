@@ -63,7 +63,6 @@ const Login = () => {
   const handleSubmit = async (values) => {
     try {
       // 登录
-      console.log(type, 'type');
       const msg =
         type == 'mobile' ? await login({ ...values, type }) : await email_login({ ...values });
       if (msg.code === 0) {
