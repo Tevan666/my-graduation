@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import {
   HeartTwoTone,
   SmileTwoTone,
@@ -19,6 +19,7 @@ import {
   Button,
   Comment,
   message,
+  Tooltip,
 } from 'antd';
 import { useIntl, useModel } from 'umi';
 
@@ -73,6 +74,14 @@ const columns = [
     dataIndex: 'baike_url',
     fixed: 'left',
     search: false,
+    render: (text) => {
+      console.log(text, 'text');
+      return (
+        <Tooltip title={text}>
+          <span className="truncate">{text.substring(0, 10)}...</span>
+        </Tooltip>
+      );
+    },
   },
   {
     title: '图片预览',
@@ -80,6 +89,14 @@ const columns = [
     dataIndex: 'img_url',
     fixed: 'left',
     search: false,
+    render: (text) => {
+      console.log(text, 'text');
+      return (
+        <Tooltip title={text}>
+          <span className="truncate">{text.substring(0, 10)}...</span>
+        </Tooltip>
+      );
+    },
   },
   {
     title: '描述',
@@ -87,6 +104,14 @@ const columns = [
     dataIndex: 'description',
     fixed: 'left',
     search: false,
+    render: (text) => {
+      console.log(text, 'text');
+      return (
+        <Tooltip title={text + '...'}>
+          <span className="truncate">{text.substring(0, 20)}...</span>
+        </Tooltip>
+      );
+    },
   },
 ];
 
@@ -97,6 +122,7 @@ const CategoryCompoment = (props) => {
   const [status, setStatus] = useState('wait');
   const [chartsModal, setChartsModal] = useState(false);
   const [chartType, setChartType] = useState();
+  const tableRef = useRef();
   const { initialState } = useModel('@@initialState');
   const { currentUser } = initialState || {};
   const categoryTitle = new Map([
@@ -175,7 +201,7 @@ const CategoryCompoment = (props) => {
       name: lineData[0]?.name,
       img_url: baike_info.image_url,
       baike_url: baike_info.baike_url,
-      description: baike_info.description,
+      description: baike_info.description.slice(0, 200),
       square: currentUser.square,
       type: props.type,
       status: '已入库',
@@ -185,6 +211,7 @@ const CategoryCompoment = (props) => {
         message.success(res.message);
         setState('');
         setLineData('');
+        tableRef.current.reload();
       } else {
         message.error(res.message);
       }
@@ -334,6 +361,7 @@ const CategoryCompoment = (props) => {
       </Card>
       <Card title="分类历史">
         <ProTable
+          actionRef={tableRef}
           columns={columns}
           options={false}
           // rowSelection={{
