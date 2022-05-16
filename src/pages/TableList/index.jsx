@@ -155,7 +155,7 @@ const TableList = () => {
       width: 180,
       ellipsis: true,
       render: (text) => (
-        <Tooltip title={text} className="truncate">
+        <Tooltip title={text + '...'} className="truncate">
           {text}
         </Tooltip>
       ),

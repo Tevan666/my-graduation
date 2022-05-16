@@ -57,7 +57,7 @@ export async function getNotices(options) {
     ...(options || {}),
   });
 }
-/** 获取规则列表 GET /api/rule */
+/** 分页获取上传历史 GET /api/rule */
 
 export async function rule(params, options) {
   return request('/api/upload', {
