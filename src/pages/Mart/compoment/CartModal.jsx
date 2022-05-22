@@ -47,7 +47,9 @@ const CartModal = ({ visible, setVisible }) => {
         title="购物车"
         visible={visible}
         onFinish={async (values) => {
-          message.success('success');
+          message.success('购买成功');
+          setAnimalInfo({ ...animalInfo, amount: 0 });
+          setPlantInfo({ ...plantInfo, amount: 0 });
           modalForm.resetFields();
           return true;
         }}

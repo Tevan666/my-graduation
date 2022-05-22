@@ -296,7 +296,6 @@ const CategoryCompoment = (props) => {
                 listType="picture-card"
                 max={1}
                 fileList={fileList}
-                onPreview={handlePreview}
                 onChange={handleChange}
               />
             </ProForm>

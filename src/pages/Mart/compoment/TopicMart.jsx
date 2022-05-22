@@ -5,19 +5,21 @@ import ProCard, { StatisticCard } from '@ant-design/pro-card';
 import { Button, Popconfirm, message } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
-import { animalState } from '../index';
+import { animalState, plantState } from '../index';
 import { useRecoilState } from 'recoil';
 import BarChart from './BarChart';
 import PieChart from '@/components/Charts/PieChart';
 import HorizontalBarChart from '@/components/Charts/HorizontalBarChart';
 const { Statistic } = StatisticCard;
 const handleCancel = () => {
-  message.error('呵呵');
+  message.error('不要拉倒');
 };
 
 const TopicMart = (params) => {
   const [responsive, setResponsive] = useState(false);
   const [animalInfo, setAnimalInfo] = useRecoilState(animalState);
+  const [plantInfo, setPlantInfo] = useRecoilState(plantState);
+
   const dayTime = [
     {
       type: '00:00-06:00',
@@ -115,11 +117,19 @@ const TopicMart = (params) => {
     }
   });
   const handleConfirm = () => {
-    setAnimalInfo({
-      ...animalInfo,
-      amount: 1,
-    });
-    message.success('不给');
+    if (params.type === 'animal') {
+      setAnimalInfo({
+        ...animalInfo,
+        amount: 1,
+      });
+    }
+    if (params.type === 'plant') {
+      setPlantInfo({
+        ...plantInfo,
+        amount: 1,
+      });
+    }
+    message.success('成功添加到购物车');
   };
   return (
     <>
@@ -174,7 +184,7 @@ const TopicMart = (params) => {
                       title="限时免费领取啦 先到先得！！！"
                       onConfirm={handleConfirm}
                       onCancel={handleCancel}
-                      okText="炫就完事了"
+                      okText="立即领取"
                       cancelText="算了我不要了"
                     >
                       <Button size="large" type="dashed" className="flex align-middle">

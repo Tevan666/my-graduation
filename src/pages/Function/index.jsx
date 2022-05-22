@@ -1,5 +1,5 @@
 import { PageContainer } from '@ant-design/pro-layout';
-import { Card, Alert, message, Image, Upload, Button, Spin } from 'antd';
+import { Card, Alert, message, Image, Upload, Button, Skeleton } from 'antd';
 import ProForm, { ProFormText } from '@ant-design/pro-form';
 import { autoSearch, uploadVideo, startTrack, getVideo } from './function.service';
 import { useState, useEffect } from 'react';
@@ -25,7 +25,7 @@ const props = {
 
 const Function = () => {
   const [codeSrc, setCodeSrc] = useState('');
-  const [beginCheack, setBeginTrack] = useState(false);
+  const [beginCheck, setBeginTrack] = useState(false);
   const [hasVideo, setHasvideo] = useState(false);
   const [loading, setLoading] = useState(false);
   const handleRPAsearch = async (name) => {
@@ -98,14 +98,22 @@ const Function = () => {
         />
         <Image height={400} src={detectGIF} />
         <Dragger {...props} customRequest={handleUploadVideo}>
-          <p className="ant-upload-drag-icon">
-            <InboxOutlined />
-          </p>
-          <p className="ant-upload-text">点击或拖拽视频到这里进行上传</p>
+          {!beginCheck ? (
+            <>
+              <p className="ant-upload-drag-icon">
+                <InboxOutlined />
+              </p>
+              <p className="ant-upload-text">点击或拖拽视频到这里进行上传</p>
+            </>
+          ) : (
+            <Skeleton loading={loading} active avatar>
+              {loading ? '点击下方按钮开始追踪吧' : '视频生成成功，点击右下方下载'}
+            </Skeleton>
+          )}
         </Dragger>
-        {beginCheack && (
+        {beginCheck && (
           <Button className="mt-5" onClick={handleStartTrack} disabled={loading}>
-            开始追踪
+            {loading ? '正在追踪' : '开始追踪'}
           </Button>
         )}
         {hasVideo && (
