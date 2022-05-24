@@ -20,6 +20,7 @@ import {
   Comment,
   message,
   Tooltip,
+  Image,
 } from 'antd';
 import { useIntl, useModel } from 'umi';
 
@@ -30,7 +31,7 @@ import ProTable from '@ant-design/pro-table';
 import CarouselComponent from '@/components/Carousel';
 import ChartModal from '../compoments/chartModal';
 import { rule } from '@/services/ant-design-pro/api';
-import { getResults, uploadHistory } from '../category.service';
+import { getResults, uploadHistory, handleMatterCategory } from '../category.service';
 const { Meta } = Card;
 
 const { Step } = Steps;
@@ -112,6 +113,21 @@ const columns = [
   },
 ];
 
+const matterMap = new Map([
+  [0, 'bird'],
+  [1, 'book'],
+  [2, 'butterfly'],
+  [3, 'cattle'],
+  [4, 'chicken'],
+  [5, 'elephant'],
+  [6, 'horse'],
+  [7, 'phone'],
+  [8, 'sheep'],
+  [9, 'shoes'],
+  [10, 'spider'],
+  [11, 'squirrel'],
+  [12, 'watch'],
+]);
 const CategoryCompoment = (props) => {
   const [lineData, setLineData] = useState('');
   const intl = useIntl();
@@ -120,6 +136,13 @@ const CategoryCompoment = (props) => {
   const [chartsModal, setChartsModal] = useState(false);
   const [chartType, setChartType] = useState();
   const tableRef = useRef();
+  const [matterArr, setMatterArr] = useState([]);
+  const [state, setState] = useState({
+    previewVisible: false,
+    previewImage: '',
+    previewTitle: '',
+    fileList: [],
+  });
   const { initialState } = useModel('@@initialState');
   const { currentUser } = initialState || {};
   const categoryTitle = new Map([
@@ -135,20 +158,12 @@ const CategoryCompoment = (props) => {
       reader.onerror = (error) => reject(error);
     });
   }
-  const [state, setState] = useState({
-    previewVisible: false,
-    previewImage: '',
-    previewTitle: '',
-    fileList: [],
-  });
-
   const handleCancel = () => setState({ previewVisible: false, fileList: fileList });
 
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
-
     setState({
       previewImage: file.url || file.preview,
       previewVisible: true,
@@ -174,6 +189,34 @@ const CategoryCompoment = (props) => {
   };
   const getResult = async (values) => {
     setStatus('process');
+    if (props.type === 'matter') {
+      const matter = [];
+      values.filelist.map(async (file) => {
+        const data = file.thumbUrl.substring(file.thumbUrl.indexOf(',') + 1);
+        const params = {
+          type: file.type,
+          data: data,
+        };
+        const result = await handleMatterCategory(params);
+        const imgArr = [];
+        if (result.code === 200) {
+          matterArr.map(async (item) => {
+            if ((item.type = matterMap.get(result.data.result_type))) {
+              debugger;
+              item.imgSrc.push(await getBase64(file.originFileObj));
+              return;
+            }
+          });
+          matter.push({
+            type: matterMap.get(result.data.result_type),
+            imgSrc: imgArr.push(await getBase64(file.originFileObj)),
+          });
+        }
+      });
+      setMatterArr(matter);
+      console.log(matterArr, 'matterArr');
+      return;
+    }
     if (values.filelist.length && values.filelist[0].thumbUrl) {
       const imgURL = values.filelist[0].thumbUrl;
       const reg = /.+(base64,)/;
@@ -294,8 +337,11 @@ const CategoryCompoment = (props) => {
                 name="filelist"
                 action="v2/5cc8019d300000980a055e76"
                 listType="picture-card"
-                max={1}
+                max={props.type === 'matter' ? 10 : 1}
                 fileList={fileList}
+                fieldProps={{
+                  onPreview: handlePreview,
+                }}
                 onChange={handleChange}
               />
             </ProForm>
@@ -340,12 +386,21 @@ const CategoryCompoment = (props) => {
           type={chartType}
           lineData={lineData}
         />
+
         <Typography.Title
           level={2}
           style={{
             textAlign: 'center',
           }}
         >
+          {matterArr &&
+            matterArr.map((item) => {
+              return (
+                <>
+                  <Image title={item.type} src={item.imgSrc} />
+                </>
+              );
+            })}
           <SmileTwoTone /> I <HeartTwoTone twoToneColor="#eb2f96" /> You
         </Typography.Title>
         <Modal visible={previewVisible} title={previewTitle} footer={null} onCancel={handleCancel}>

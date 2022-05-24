@@ -20,3 +20,12 @@ export async function uploadHistory(props) {
     params: props,
   });
 }
+
+/** 获取物体分类结果 GET /api/detect */
+
+export async function handleMatterCategory(props) {
+  return request('/api/detect', {
+    method: 'POST',
+    data: props,
+  });
+}
