@@ -21,6 +21,7 @@ import {
   message,
   Tooltip,
   Image,
+  Divider,
 } from 'antd';
 import { useIntl, useModel } from 'umi';
 
@@ -137,6 +138,7 @@ const CategoryCompoment = (props) => {
   const [chartType, setChartType] = useState();
   const tableRef = useRef();
   const [matterArr, setMatterArr] = useState([]);
+  const [imgVisible, setImgVisible] = useState(false);
   const [state, setState] = useState({
     previewVisible: false,
     previewImage: '',
@@ -188,6 +190,7 @@ const CategoryCompoment = (props) => {
     setChartsModal(false);
   };
   const getResult = async (values) => {
+    console.log(values, 'value');
     setStatus('process');
     if (props.type === 'matter') {
       const matter = [];
@@ -200,21 +203,27 @@ const CategoryCompoment = (props) => {
         const result = await handleMatterCategory(params);
         const imgArr = [];
         if (result.code === 200) {
-          matterArr.map(async (item) => {
-            if ((item.type = matterMap.get(result.data.result_type))) {
-              debugger;
-              item.imgSrc.push(await getBase64(file.originFileObj));
-              return;
-            }
-          });
-          matter.push({
-            type: matterMap.get(result.data.result_type),
-            imgSrc: imgArr.push(await getBase64(file.originFileObj)),
-          });
+          const url = await getBase64(file.originFileObj);
+          const isRepeat =
+            matter &&
+            matter.some((item) => {
+              if (item.type === matterMap.get(result.data.result_type)) {
+                item.imgSrc.push(url);
+              }
+              return item.type === matterMap.get(result.data.result_type);
+            });
+          if (matter.length == 0 || !isRepeat) {
+            imgArr.push(url);
+            matter.push({
+              type: matterMap.get(result.data.result_type),
+              imgSrc: imgArr,
+            });
+          }
+          message.success(file.name + '分类成功！');
+          setStatus('finish');
         }
       });
       setMatterArr(matter);
-      console.log(matterArr, 'matterArr');
       return;
     }
     if (values.filelist.length && values.filelist[0].thumbUrl) {
@@ -233,6 +242,10 @@ const CategoryCompoment = (props) => {
     }
   };
   const handleUpload = async () => {
+    if (props.type === 'matter') {
+      setImgVisible(true);
+      return;
+    }
     const baike_info = lineData[0]?.baike_info;
     const uploadParam = {
       name: lineData[0]?.name,
@@ -321,7 +334,7 @@ const CategoryCompoment = (props) => {
               submitter={{
                 searchConfig: {
                   submitText: '提交',
-                  resetText: '上传历史记录',
+                  resetText: props.type === 'matter' ? '查看分类详情' : '上传历史记录',
                 },
                 resetButtonProps: {
                   style: {
@@ -341,6 +354,7 @@ const CategoryCompoment = (props) => {
                 fileList={fileList}
                 fieldProps={{
                   onPreview: handlePreview,
+                  multiple: props.type === 'matter' ? true : false,
                 }}
                 onChange={handleChange}
               />
@@ -394,10 +408,40 @@ const CategoryCompoment = (props) => {
           }}
         >
           {matterArr &&
-            matterArr.map((item) => {
+            matterArr.map((item, index) => {
+              if (Array.isArray(item.imgSrc)) {
+                return (
+                  <>
+                    {imgVisible && (
+                      <Row gutter={[16, 16]}>
+                        <Divider orientation="left">{item.type}</Divider>
+
+                        <Col span={24}>
+                          <Image.PreviewGroup
+                            preview={{ imgVisible, onVisibleChange: (vis) => setImgVisible(vis) }}
+                          >
+                            {item.imgSrc.map((sonItem, index) => {
+                              console.log(sonItem, 'item');
+
+                              return <Image width={300} key={item.type} src={sonItem} />;
+                            })}
+                          </Image.PreviewGroup>
+                        </Col>
+                      </Row>
+                    )}
+                  </>
+                );
+              }
               return (
                 <>
-                  <Image title={item.type} src={item.imgSrc} />
+                  {imgVisible && (
+                    <Row key={item.type} gutter={[16, 16]}>
+                      <Col span={24 / matterArr.length}>
+                        <Divider orientation="left">{item.type}</Divider>
+                        <Image width={300} key={item.type} src={item.imgSrc} />
+                      </Col>
+                    </Row>
+                  )}
                 </>
               );
             })}
