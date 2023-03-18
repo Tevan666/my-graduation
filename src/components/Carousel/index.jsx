@@ -3,6 +3,20 @@ import { Carousel } from 'react-responsive-carousel';
 import plant from '@/assets/plant.png';
 import money from '@/assets/money.png';
 const CarouselComponent = (props) => {
+  const imgArr = [
+    {
+      name: '动物识别',
+      url: 'https://api.zylearning.top/api/wallpaper?lx=dw',
+    },
+    {
+      name: '植物识别',
+      url: plant,
+    },
+    {
+      name: '货币识别',
+      url: money,
+    },
+  ];
   return (
     <Carousel
       autoPlay
@@ -11,18 +25,14 @@ const CarouselComponent = (props) => {
       interval={props.type === 'animal' ? 3000 : 2000}
       transitionTime={1000}
     >
-      <div key={1}>
-        <img src="https://api.zylearning.top/api/wallpaper?lx=dw" />
-        <p className="legend">动物识别</p>
-      </div>
-      <div key={2}>
-        <img src={plant} />
-        <p className="legend">植物识别</p>
-      </div>
-      <div key={3}>
-        <img src={money} />
-        <p className="legend">货币识别</p>
-      </div>
+      {imgArr.map((item) => {
+        return (
+          <div key={item.name}>
+            <img src={item.url} />
+            <p className="legend">{item.name}</p>
+          </div>
+        );
+      })}
     </Carousel>
   );
 };

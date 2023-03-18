@@ -24,6 +24,18 @@ const CodePreview = ({ children }) => (
 );
 
 const Welcome = () => {
+  const imgUrl = [
+    { name: 'bird', url: bird },
+    { name: 'book', url: book },
+    { name: 'butterfly', url: butterfly },
+    { name: 'chicken', url: chicken },
+    { name: 'elephant', url: elephant },
+    { name: 'niu', url: niu },
+    { name: 'phone', url: phone },
+    { name: 'shoes', url: shoes },
+    { name: 'songshu', url: songshu },
+    { name: 'watch', url: watch },
+  ];
   const intl = useIntl();
   return (
     <PageContainer>
@@ -50,36 +62,13 @@ const Welcome = () => {
         </CodePreview>
       </Card>
       <Carousel autoplay arrows={true} className={styles.imgBox} effect="fade">
-        <div>
-          <img className={styles.imgStyle} src={bird} alt="" />
-        </div>
-        <div>
-          <img className={styles.imgStyle} src={book} alt="" />
-        </div>
-        <div>
-          <img className={styles.imgStyle} src={butterfly} alt="" />
-        </div>
-        <div>
-          <img className={styles.imgStyle} src={chicken} alt="" />
-        </div>
-        <div>
-          <img className={styles.imgStyle} src={elephant} alt="" />
-        </div>
-        <div>
-          <img className={styles.imgStyle} src={niu} alt="" />
-        </div>
-        <div>
-          <img className={styles.imgStyle} src={phone} alt="" />
-        </div>
-        <div>
-          <img className={styles.imgStyle} src={shoes} alt="" />
-        </div>
-        <div>
-          <img className={styles.imgStyle} src={songshu} alt="" />
-        </div>
-        <div>
-          <img className={styles.imgStyle} src={watch} alt="" />
-        </div>
+        {imgUrl.map((item) => {
+          return (
+            <div key={item.name}>
+              <img className={styles.imgStyle} src={item.url} alt={item.url} />
+            </div>
+          );
+        })}
       </Carousel>
     </PageContainer>
   );
